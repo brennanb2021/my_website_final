@@ -65,7 +65,6 @@
 
         <form action="/changeAccountInformation" method="POST" novalidate>
             <input type='hidden' name='csrfToken' value='{{csrf}}'/>
-            {{csrf}}
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     <ul class=flashes>

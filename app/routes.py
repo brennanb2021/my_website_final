@@ -495,10 +495,10 @@ def runBulletHellGame():
 
 def checkUserLoggedIn(sessionID):
     
-    #Checks if the user is actually logged in -- commented out for easier testing
+    """#Checks if the user is actually logged in -- commented out for easier testing
     if not (sessionID in sessionTokens): #not a valid session token
         flash("You are not logged in.", 'requestError')
         return False
-    
+    """
 
     return True
