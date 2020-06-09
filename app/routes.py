@@ -36,7 +36,8 @@ def index():
 
     
     token = uuid4()
-    cache.get("csrfTokens")[str(token)] = True #give user a session token
+    csrfTokens[str(token)] = True
+    cache.set("csrfTokens", csrfTokens) #testing
 
     form = LoginForm()
     title="Sign in"
@@ -76,7 +77,8 @@ def registerPost():
         flash("Invalid Form Request", 'requestError') #they didn't go thru the website
         print("invalid form request on register")
         return redirect(url_for('register')) #begone
-    del cache.get("csrfTokens")[token] #remove this token from the dict
+    del csrfTokens[token]
+    cache.set("csrfTokens", csrfTokens) #remove this token from the dict
     
     success = True
     if form1.get("email") != None: #if they are making a new account
@@ -134,7 +136,8 @@ def registerPost():
     else:
         token = form1.get('csrfToken')
         token = uuid4()
-        cache.get("csrfTokens")[str(token)] = True #give user a session token
+        csrfTokens[str(token)] = True
+    cache.set("csrfTokens", csrfTokens) #testing
         if request.cookies.get("user") in cache.get("sessionTokens"): #they came from profile page
             return redirect(url_for('index'))
         title="Register"
@@ -152,7 +155,8 @@ def view():
     id = request.args.get("id")
     
     token = uuid4()
-    cache.get("csrfTokens")[str(token)] = True #give user a session token
+    csrfTokens[str(token)] = True
+    cache.set("csrfTokens", csrfTokens) #testing
 
     formPwd = EditPasswordForm()
     formFnLn = EditAccountForm()
@@ -176,7 +180,8 @@ def viewPost():
         flash("Invalid Form Request", 'requestError') #they didn't go thru the website
         print("invalid form request on viewpost")
         return redirect(url_for('index')) #begone
-    del cache.get("csrfTokens")[token] #remove this token from the dict
+    del csrfTokens[token]
+    cache.set("csrfTokens", csrfTokens) #remove this token from the dict #remove this token from the dict
     
     success = True
     if form1.get('email') == "": #no email entered
@@ -233,12 +238,14 @@ def logout():
         flash("Invalid Form Request", 'requestError') #they didn't go thru the website
         print("invalid form request on logout")
         return redirect(url_for('index'))
-    del cache.get("csrfTokens")[token] #remove this token from the dict
+    del csrfTokens[token]
+    cache.set("csrfTokens", csrfTokens) #remove this token from the dict #remove this token from the dict
 
     sessionID = request.cookies.get('user') #get the session token
     #means they hit logout btn
     if sessionID in cache.get("sessionTokens"):
-        del cache.get("sessionTokens")[sessionID] #remove this user's session token from the dict
+        del csrfTokens[token]
+        cache.set("csrfTokens", csrfTokens) #remove this token from the dict #remove this user's session token from the dict
 
     return redirect(url_for('index'))
 
@@ -252,7 +259,8 @@ def deleteProfile():
         flash("Invalid Form Request", 'requestError') #they didn't go thru the website
         print("invalid form request on deleteprofile")
         return redirect(url_for('index'))
-    del cache.get("csrfTokens")[token] #remove this token from the dict
+    del csrfTokens[token]
+    cache.set("csrfTokens", csrfTokens) #remove this token from the dict #remove this token from the dict
 
     sessionID = request.cookies.get('user') #get the session token
     Profile.query.filter_by(user_id=cache.get("sessionTokens")[sessionID].id).delete()
@@ -260,7 +268,8 @@ def deleteProfile():
     db.session.commit()
 
     if sessionID in cache.get("sessionTokens"):
-        del cache.get("sessionTokens")[sessionID] #remove this user's session token from the dict (log them out)
+        del csrfTokens[token]
+        cache.set("csrfTokens", csrfTokens) #remove this token from the dict #remove this user's session token from the dict (log them out)
 
     return redirect(url_for('index'))
 
@@ -275,7 +284,8 @@ def changeAccountInformation():
         flash("Invalid Form Request", 'requestError') #they didn't go thru the website
         print("invalid form request on changeAccountInfo")
         return redirect(url_for('index'))
-    del cache.get("csrfTokens")[token] #remove this token from the dict
+    del csrfTokens[token]
+    cache.set("csrfTokens", csrfTokens) #remove this token from the dict #remove this token from the dict
 
     sessionID = request.cookies.get('user') #get the session token
 
