@@ -27,10 +27,6 @@ class Enemy {
     this.x = x; //IDK IF I NEED TO HAVE THIS
     y = 20; //put it at the top of the screen.
   }
-
-  boolean isHidden() {
-    return hideThis;
-  }
   
   int getScoreBonus() {
     return scoreBonus;
@@ -42,6 +38,10 @@ class Enemy {
   
   void setOffsetHealthBar(int[] healthBar) {
     offsetHealthBar = healthBar;
+  }
+  
+  boolean isHidden() {
+    return hideThis;
   }
   
   boolean checkCollision(myBullet bullet) {
