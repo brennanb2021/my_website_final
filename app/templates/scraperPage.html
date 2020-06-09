@@ -1,0 +1,226 @@
+<html>
+<head>
+<style>
+.regText {
+    font-size: 15px;
+    font-family: verdana;
+}
+.titleText {
+    font-size: 40px;
+    font-family: verdana;
+}
+.pageTitle {
+    font-size: 30px;
+    font-family: verdana;
+}
+.link {
+    font-size: 20px;
+    font-family: verdana;
+}
+.all {
+    text-align: center;
+}
+.titleBox {
+    background-color: rgb(111, 196, 118);
+    margin-right: 100px;
+    margin-left: 100px;
+    padding: 30px;
+}
+.formBox {
+    background-color: lightblue;
+    margin-right: 100px;
+    margin-left: 100px;
+    padding: 30px;
+}
+td, th {
+    width: 50%;
+    border-style: none;
+    text-align: left;
+    padding: 8px;
+}
+table {
+    border-style: none;
+    border-collapse: collapse;
+    width: 90%;
+}
+</style>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script> 
+</head>
+
+
+<body>
+    <div class="all">
+    <title>News Source Polarity Analyzer</title>
+
+    <div class="titleBox">
+    <div class="titleText">
+        <strong>News Source Polarity Analyzer</strong>
+    </div>
+    <div class="link">
+        <strong><br/>Some of these may not work, as the news websites' html formats change and the scraper is not dynamic.</strong>
+        <a href="{{ url_for('mainPage') }}"><br/>Back to main page</a>
+    </div>    
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class=flashes>
+            {% for category, message in messages %}
+                {% if category == 'divideBy0' %}
+                <span style="color: red;">[{{ message }}]</span>
+                {% endif %}
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <div class="formBox">
+
+        <form action="/newsScraper" method="POST">
+            <strong>Choose sources to compare<br/></strong>
+            <input list="sources1" name="sources1">
+            <datalist id="sources1">
+                <option value="CNN headlines (500)">
+                <option value="CNN articles (50)">
+                <option value="New York Post headlines (500)">
+                <option value="New York Post articles (50)">
+                <option value="New York Times headlines (500-limited)">
+                <option value="New York Times articles (50)">
+                <option value="Washington Post headlines (500)">
+                <option value="Daily Wire headlines (500-limited)">
+                <option value="Daily Wire articles (50)">
+                <option value="FOX headlines (500-limited)">
+                <option value="FOX articles (50)">
+                <option value="Huffington Post headlines (500-limited)">
+                <option value="Huffington Post articles (50)">
+            </datalist>
+
+            <input list="sources2" name="sources2">
+            <datalist id="sources2">
+                <option value="CNN headlines (500)">
+                <option value="CNN articles (50)">
+                <option value="New York Post headlines (500)">
+                <option value="New York Post articles (50)">
+                <option value="New York Times headlines (500-limited)">
+                <option value="New York Times articles (50)">
+                <option value="Washington Post headlines (500)">
+                <option value="Daily Wire headlines (500-limited)">
+                <option value="Daily Wire articles (50)">
+                <option value="FOX headlines (500-limited)">
+                <option value="FOX articles (50)">
+                <option value="Huffington Post headlines (500-limited)">
+                <option value="Huffington Post articles (50)">
+            </datalist>
+
+            <br/><br/>
+            <label for="keywords">Keywords (separate by a comma and a space): </label>
+            <input type="text" id="keywords" name="keywords"><br><br>
+            <input type="submit" value="Submit"/>
+        </form>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for category, message in messages %}
+                    <span style="color: red;">[{{ message }}]</span>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+
+        {% if finishedReading is defined %}
+        
+        {% if keywordArr|length > 1 %}
+            <p>Keywords searched: {{ keywords }}</p>
+        {% else %}
+            <p>Keyword searched: {{ keywords }} </p>
+        {% endif %}
+
+        <table>
+            <tr>
+                {% if source1 == None %}
+                    <th> </th>
+                {% else %}
+                    <th>{{ source1 }}</th>
+                {% endif %}
+                {% if source2 != None %}
+                    <th>{{ source2 }}</th>
+                {% endif %}
+            </tr>
+            
+            <tr>
+                {% if typed1 != None %}
+                <td>
+                {% if typed1 == "articles" %}
+                Number of articles: {{ source1Dict["numArticles"] }} <br/>
+                Number of sentences: {{ source1Dict["numSentences"] }}<br/>
+                % Negative sentences: {{ source1Dict["Negative sentences"] }}%<br/>
+                % Neutral sentences: {{ source1Dict["Neutral sentences"] }}%<br/>
+                % Positive sentences: {{ source1Dict["Positive sentences"] }}%<br/>
+                % Negative articles: {{ source1Dict["Negative articles"] }}%<br/>
+                % Neutral articles: {{ source1Dict["Neutral articles"] }}%<br/>
+                % Positive articles: {{ source1Dict["Positive articles"] }}%<br/><br/>
+                
+                {% else %}
+                Number of headlines: {{ source1Dict["numHeadlines"] }}<br/>
+                % Negative: {{ source1Dict["Negative headlines"] }}%<br/>
+                % Neutral: {{ source1Dict["Neutral headlines"] }}%<br/>
+                % Positive: {{ source1Dict["Positive headlines"] }}%<br/><br/>
+                {% endif %}
+                </td>
+                {% else %}
+                <td> </td>
+                {% endif %}
+
+                {% if typed2 != None %}
+                <td>
+                {% if typed2 == "articles" %}
+                Number of articles: {{ source2Dict["numArticles"] }} <br/>
+                Number of sentences: {{ source2Dict["numSentences"] }}<br/>
+                % Negative sentences: {{ source2Dict["Negative sentences"] }}%<br/>
+                % Neutral sentences: {{ source2Dict["Neutral sentences"] }}%<br/>
+                % Positive sentences: {{ source2Dict["Positive sentences"] }}%<br/>
+                % Negative articles: {{ source2Dict["Negative articles"] }}%<br/>
+                % Neutral articles: {{ source2Dict["Neutral articles"] }}%<br/>
+                % Positive articles: {{ source2Dict["Positive articles"] }}%<br/><br/>
+                
+                {% else %}
+                Number of headlines: {{ source2Dict["numHeadlines"] }}<br/>
+                % Negative: {{ source2Dict["Negative headlines"] }}%<br/>
+                % Neutral: {{ source2Dict["Neutral headlines"] }}%<br/>
+                % Positive: {{ source2Dict["Positive headlines"] }}%<br/><br/>
+                {% endif %}
+                </td>
+                {% endif %}
+            </tr>
+
+            
+        </table>
+
+        <div>
+        
+        
+            <div id="f7885c3c-974e-42bf-be69-8d44da469f49" class="plotly-graph-div" style="height:100%; width:100%;"></div>
+            <script type="text/javascript">
+                
+                    window.PLOTLYENV=window.PLOTLYENV || {};
+                    
+                if (document.getElementById("f7885c3c-974e-42bf-be69-8d44da469f49")) {
+                    Plotly.newPlot(
+                        'f7885c3c-974e-42bf-be69-8d44da469f49',
+                        [{"name": "Daily Wire headlines (500-limited)", "type": "bar", "x": ["Negative headlines", "Neutral headlines", "Positive headlines"], "y": [81.48148148148148, 14.814814814814813, 3.7037037037037033]}, {"name": "FOX headlines (500-limited)", "type": "bar", "x": ["Negative headlines", "Neutral headlines", "Positive headlines"], "y": [77.77777777777779, 13.580246913580247, 8.641975308641975]}],
+                        {"barmode": "group", "template": {"data": {"bar": [{"error_x": {"color": "#2a3f5f"}, "error_y": {"color": "#2a3f5f"}, "marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "bar"}], "barpolar": [{"marker": {"line": {"color": "#E5ECF6", "width": 0.5}}, "type": "barpolar"}], "carpet": [{"aaxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "baxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "type": "carpet"}], "choropleth": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "choropleth"}], "contour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "contour"}], "contourcarpet": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "contourcarpet"}], "heatmap": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmap"}], "heatmapgl": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "heatmapgl"}], "histogram": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "histogram"}], "histogram2d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2d"}], "histogram2dcontour": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "histogram2dcontour"}], "mesh3d": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "type": "mesh3d"}], "parcoords": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "parcoords"}], "pie": [{"automargin": true, "type": "pie"}], "scatter": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter"}], "scatter3d": [{"line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatter3d"}], "scattercarpet": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattercarpet"}], "scattergeo": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergeo"}], "scattergl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattergl"}], "scattermapbox": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scattermapbox"}], "scatterpolar": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolar"}], "scatterpolargl": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterpolargl"}], "scatterternary": [{"marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "type": "scatterternary"}], "surface": [{"colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "type": "surface"}], "table": [{"cells": {"fill": {"color": "#EBF0F8"}, "line": {"color": "white"}}, "header": {"fill": {"color": "#C8D4E3"}, "line": {"color": "white"}}, "type": "table"}]}, "layout": {"annotationdefaults": {"arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1}, "coloraxis": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "colorscale": {"diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]], "sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}, "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": {"color": "#2a3f5f"}, "geo": {"bgcolor": "white", "lakecolor": "white", "landcolor": "#E5ECF6", "showlakes": true, "showland": true, "subunitcolor": "white"}, "hoverlabel": {"align": "left"}, "hovermode": "closest", "mapbox": {"style": "light"}, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": {"angularaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "radialaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "scene": {"xaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "yaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}, "zaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "gridwidth": 2, "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white"}}, "shapedefaults": {"line": {"color": "#2a3f5f"}}, "ternary": {"aaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "baxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "bgcolor": "#E5ECF6", "caxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "title": {"x": 0.05}, "xaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}, "yaxis": {"automargin": true, "gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "zerolinewidth": 2}}}, "title": {"text": "Polarity of Daily Wire headlines (500-limited) vs FOX headlines (500-limited)"}, "yaxis": {"title": {"text": "%"}}},
+                        {"responsive": true}
+                    )
+                };
+                
+            </script>
+        </div>
+
+        {% endif %}
+    </div>
+
+    </div>
+</body>
+</html>

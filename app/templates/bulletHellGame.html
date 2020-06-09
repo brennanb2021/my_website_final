@@ -1,0 +1,96 @@
+<html>
+<head>
+<style>
+.regText {
+    font-size: 15px;
+    font-family: verdana;
+}
+.titleText {
+    font-size: 40px;
+    font-family: verdana;
+}
+.pageTitle {
+    font-size: 30px;
+    font-family: verdana;
+}
+.link {
+    font-size: 20px;
+    font-family: verdana;
+}
+.all {
+    text-align: center;
+}
+.titleBox {
+    background-color: rgb(111, 196, 118);
+    margin-right: 100px;
+    margin-left: 100px;
+    padding: 30px;
+}
+.formBox {
+    background-color: lightblue;
+    margin-right: 100px;
+    margin-left: 100px;
+    padding: 30px;
+}
+.processingEmbed {
+    width: 600;
+    height: 600;
+    margin: auto;
+    border: 2px;
+    border-style: solid;
+    display: block;
+}
+
+</style>
+<!-- <script src="{{url_for('static', filename='processing.js')}}"></script> -->
+<!-- <script type="text/javascript" src="static/processing.js"></script> -->
+<!-- <script async type="text/javascript" src=https://CDN.JSDelivr.net/processing.js/latest/mainfile></script> -->
+<script async type="text/javascript" src="{{url_for('static', filename='processing_try.js')}}"></script>
+
+</script>
+</head>
+
+<body>
+    <div class="all">
+    <title>Brennan's website</title>
+    
+    <div class="titleBox">
+    <div class="titleText">
+        <strong>Brennan's Website</strong>
+    </div>
+    <div class="link">
+        <a href="{{ url_for('mainPage') }}"><br/>Back to main page</a>
+    </div>  
+    
+    <div class="pageTitle">
+    <br/>
+    <a>Bullet Hell Game</a>
+    </div>
+    </div>
+
+    <div class="formBox">
+        <canvas id="shooterGameEmbed" class="processingEmbed" data-processing-sources="{{url_for('static', filename='shooterGame.pde')}} 
+                {{url_for('static', filename='BigEnemy.pde')}}
+                {{url_for('static', filename='BouncingEnemy.pde')}}
+                {{url_for('static', filename='BouncingEnemyBullet.pde')}}
+                {{url_for('static', filename='CircleEnemy.pde')}}
+                {{url_for('static', filename='CircleEnemyTurret.pde')}}
+                {{url_for('static', filename='ComplexEnemy.pde')}}
+                {{url_for('static', filename='ComplexEnemyBullet.pde')}}
+                {{url_for('static', filename='Enemy.pde')}}
+                {{url_for('static', filename='EnemyBullet.pde')}}
+                {{url_for('static', filename='GodKiana.pde')}}
+                {{url_for('static', filename='GodKianaBullet.pde')}}
+                {{url_for('static', filename='myBullet.pde')}}
+                {{url_for('static', filename='Player.pde')}}
+                {{url_for('static', filename='shooterGame.pde')}}
+                {{url_for('static', filename='StandardEnemy.pde')}}
+                {{url_for('static', filename='StandardEnemyBullet.pde')}}
+                {{url_for('static', filename='SpinningEnemy.pde')}}
+                {{url_for('static', filename='SpinningEnemyTurret.pde')}}
+                "></canvas>
+        
+    </div>
+
+</body>
+</html>

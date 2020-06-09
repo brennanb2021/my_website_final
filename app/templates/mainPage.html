@@ -1,0 +1,73 @@
+<html>
+<head>
+<style>
+.regText {
+    font-size: 15px;
+    font-family: verdana;
+}
+.link {
+    font-size: 20px;
+    font-family: verdana;
+}
+.titleText {
+    font-size: 40px;
+    font-family: verdana;
+}
+.pageTitle {
+    font-size: 30px;
+    font-family: verdana;
+}
+.all {
+    text-align: center;
+}
+.titleBox {
+    background-color: rgb(111, 196, 118);
+    margin-right: 200px;
+    margin-left: 200px;
+    padding: 30px;
+}
+.formBox {
+    background-color: lightblue;
+    margin-right: 200px;
+    margin-left: 200px;
+    padding: 30px;
+}
+</style>
+</head>
+
+<body>
+    <div class="all">
+    <title>Brennan's Website</title>
+    <div class="titleBox">
+    <div class="titleText">
+        <strong>Brennan's Website</strong>
+    </div>
+    <br/><br/>
+
+    <div class="formBox">  
+    <div class="pageTitle">
+        <a><br/>{{ title }}<br/>Account: {{ profile.first_name }} {{ profile.last_name }}</a>
+    </div>
+    <br/><br/>
+
+    <div class="link">
+        <a href="{{ url_for('members') }}"><br/>Members</a>
+    </div>
+    <div class="link">
+        <a href="{{ url_for('view', id=profile.id) }}"><br/>Profile</a>
+    </div>
+    <div class="link">
+        <a href="{{ url_for('newsScraperGet') }}"><br/>News Scraper</a>
+    </div>
+    <div class="link">
+        <a href="{{ url_for('pairGet') }}"><br/>Pairing program</a>
+    </div>
+    <div class="link">
+        <a href="{{ url_for('runBulletHellGame') }}"><br/>Bullet hell game</a>
+    </div>
+    </div>
+
+    
+    </div>
+</body>
+</html>

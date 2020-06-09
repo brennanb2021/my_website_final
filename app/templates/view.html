@@ -1,0 +1,178 @@
+<html>
+<head>
+<style>
+.regText {
+    font-size: 15px;
+    font-family: verdana;
+}
+.link {
+    font-size: 20px;
+    font-family: verdana;
+}
+.titleText {
+    font-size: 40px;
+    font-family: verdana;
+}
+.pageTitle {
+    font-size: 30px;
+    font-family: verdana;
+}
+.all {
+    text-align: center;
+}
+.titleBox {
+    background-color: rgb(111, 196, 118);
+    margin-right: 200px;
+    margin-left: 200px;
+    padding: 30px;
+}
+.formBox {
+    background-color: lightblue;
+    margin-right: 200px;
+    margin-left: 200px;
+    padding: 30px;
+}
+</style>
+</head>
+
+<body>
+    <div class="all">
+    <title>Brennan's Website</title>
+    <div class="titleBox">
+    <div class="titleText">
+        <strong>Brennan's Website</strong>
+    </div>
+
+    <div class="link">
+        <a href="{{ url_for('members') }}"><br/>Members</a>
+    </div>
+    <div class="link">
+        <a href="{{ url_for('mainPage') }}"><br/>Back to main page</a>
+    </div>
+
+    <div class="pageTitle">
+        <a><br/>{{ title }}<br/>Account: {{ profile.first_name }} {{ profile.last_name }}</a>
+    </div>
+    </div>
+
+    <div class="formBox">
+    
+    {% if logged_in is defined %}
+    {% if logged_in == true %}
+        <div class="regText">
+            <a>Change account information:</a>
+        </div>
+
+        <form action="/changeAccountInformation" method="POST" novalidate>
+            <input type='hidden' name='csrfToken' value='{{csrf}}'/>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class=flashes>
+                    {% for category, message in messages %}
+                        {% if category == 'requestError' %}
+                            <span style="color: red;">[{{ message }}]</span>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+            {{ formFnLn.hidden_tag() }}
+            <p>
+                {{ formFnLn.first_name.label }}<br>
+                {{ formFnLn.first_name(size=32) }}<br>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <ul class=flashes>
+                        {% for category, message in messages %}
+                            {% if category == 'firstNameError' %}
+                            <span style="color: red;">[{{ message }}]</span>
+                            {% endif %}
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            </p>
+            <p>
+                {{ formFnLn.last_name.label }}<br>
+                {{ formFnLn.last_name(size=32) }}<br>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <ul class=flashes>
+                        {% for category, message in messages %}
+                            {% if category == 'lastNameError' %}
+                                <span style="color: red;">[{{ message }}]</span>
+                            {% endif %}
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            </p>
+            <input type="submit" value="Change account information"/>
+        </form>
+
+        <div class="regText">
+            <a><br/><br/>Change password:</a>
+        </div>
+        
+        <form action="/register" method="POST" novalidate>
+            <input type='hidden' name='csrfToken' value='{{csrf}}'/>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class=flashes>
+                    {% for category, message in messages %}
+                        {% if category == 'requestError' %}
+                            <span style="color: red;">[{{ message }}]</span>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+            {{ formPwd.hidden_tag() }}
+            <p>
+                {{ formPwd.password.label }}<br>
+                {{ formPwd.password(size=32) }}<br>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <ul class=flashes>
+                        {% for category, message in messages %}
+                            {% if category == 'passwordError' %}
+                            <span style="color: red;">[{{ message }}]</span>
+                            {% endif %}
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            </p>
+            <p>
+                {{ formPwd.password2.label }}<br>
+                {{ formPwd.password2(size=32) }}<br>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <ul class=flashes>
+                        {% for category, message in messages %}
+                            {% if category == 'password2Error' %}
+                                <span style="color: red;">[{{ message }}]</span>
+                            {% endif %}
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            </p>
+            <input type="submit" value="Change password"/>
+        </form>
+
+        <form action="/deleteProfile" method="POST">
+            <input type='hidden' name='csrfToken' value='{{csrf}}'/>
+            <button name="delete_profile_btn" value="delete_profile_btn">Delete account</button>
+        </form>
+
+        <form action="/logout" method="POST">
+            <input type='hidden' name='csrfToken' value='{{csrf}}'/>
+            <button name="logout" value="logout">Logout</button>
+        </form>
+    {% endif %}
+    {% endif %}
+    </div>
+    </div>
+</body>
+</html>

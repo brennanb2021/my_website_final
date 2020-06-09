@@ -1,0 +1,103 @@
+    
+    
+    <br/>
+    {% if withPreferencesConnections is defined %}
+    <table>
+    <tr>
+        <div class="centerThis"> 
+        <div class="sectionText">
+        Complete graph of only people with preferences
+        <br/>
+        </div>
+        </div>
+    </tr>
+    <tr>
+
+        Input graph -Complete graph of only people with preferences- here
+        
+        </div>
+    </tr>
+    </table>
+
+    <br/><br/>
+    <table>
+    <tr>
+        <div class="centerThis">
+        <div class="sectionText">
+        Connections found in graph of only people with preferences
+        <br/>
+        </div>
+        </div>
+    </tr>
+    <tr>
+
+        <td>
+        Pairs:
+        {% for pair in withPreferencesConnections['groups'] %}
+            <br/>{{ pair }}
+        {% endfor %}
+        <br/>
+        <strong>
+        {% if withPreferencesConnections['cantBeGrouped']|length == 0 %}
+        Everyone was paired
+        {% else %}
+        Can't be paired:
+        {% for alone in withPreferencesConnections['cantBeGrouped'] %}
+            <br/>{{ alone }}
+        {% endfor %}
+        {% endif %}
+        </strong>
+        </td>
+        <td>
+            <div class="centerThis">
+
+            Input graph -Connections found in graph of only people with preferences- here
+            
+            </div>
+        </td>
+    </tr>
+    </table>
+
+    <br/><br/>
+    <table>
+    <tr>
+        <div class="centerThis">
+        <div class="sectionText">
+        Connections found in graph of everybody
+        <br/>
+        </div>
+        </div>
+    </tr>
+    <tr>
+
+        <td>Pairs:
+        {% for pair in everybodyConnections['groups'] %}
+            <br/>{{ pair }}
+        {% endfor %}
+        <br/>
+        <strong>
+        {% if everybodyConnections['cantBeGrouped']|length == 0 %}
+        Everyone was paired
+        {% else %}
+        Can't be paired:
+        {% for alone in everybodyConnections['cantBeGrouped'] %}
+            <br/>{{ alone }}
+        {% endfor %}
+        {% endif %}
+        </td>
+        <td>
+            <div class="centerThis">
+
+            Input graph -Connections found in graph of everybody- here
+            
+            </div>
+        </td>
+    </tr>
+
+    </strong>
+    </table>
+    {% endif %}
+    </div>
+    </div>
+</body>
+</html>

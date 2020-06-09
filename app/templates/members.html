@@ -1,0 +1,91 @@
+<html>
+<head>
+<style>
+.regText {
+    font-size: 15px;
+    font-family: verdana;
+}
+.link {
+    font-size: 20px;
+    font-family: verdana;
+}
+.titleText {
+    font-size: 40px;
+    font-family: verdana;
+}
+.pageTitle {
+    font-size: 30px;
+    font-family: verdana;
+}
+.all {
+    text-align: center;
+}
+.titleBox {
+    background-color: rgb(111, 196, 118);
+    margin-right: 200px;
+    margin-left: 200px;
+    padding: 30px;
+}
+.formBox {
+    background-color: lightblue;
+    margin-right: 200px;
+    margin-left: 200px;
+    padding: 30px;
+}
+table {
+    width: 800px;
+    text-align: center;
+    font-size: 15px;
+}
+.headerTray{
+    font-weight: bold;
+    height: 50px;
+}
+.itemTray {
+    height: 30px;
+}
+</style>
+</head>
+
+<body>
+    <div class="all">
+    <title>Brennan's website</title>
+
+    <div class="titleBox">
+    <div class="titleText">
+        <strong>Brennan's Website</strong>
+    </div>
+    <div class="link">
+        <a href="{{ url_for('mainPage') }}"><br/>Main page</a>
+    </div>
+    <div class="link">
+        <a href="{{ url_for('view', id=logged_in_id) }}"><br/>Your profile page</a>
+    </div>
+    </div>
+
+    <div class="formBox">
+    <div class="pageTitle">
+        <a>{{ title }}</a>
+        <br/><br/>
+    </div>
+    Click on each profile to visit that user's profile page.
+
+    <table>
+        <tr class="headerTray">
+            <td>Email</td>
+            <td>First Name</td>
+            <td>Last Name</td>
+        </tr>
+
+        {% for user in display %}
+        <tr class="itemTray">
+            <td><a href="{{ url_for('view', id=user.id) }}">{{user.email}}</a></td>
+            <td>{{user.first_name}}</td>
+            <td>{{user.last_name}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,104 @@
+<html>
+<head>
+<style>
+.regText {
+    font-size: 15px;
+    font-family: verdana;
+}
+.link {
+    font-size: 20px;
+    font-family: verdana;
+}
+.titleText {
+    font-size: 40px;
+    font-family: verdana;
+}
+.pageTitle {
+    font-size: 30px;
+    font-family: verdana;
+}
+.all {
+    text-align: center;
+}
+.titleBox {
+    background-color: rgb(111, 196, 118);
+    margin-right: 200px;
+    margin-left: 200px;
+    padding: 30px;
+}
+.formBox {
+    background-color: lightblue;
+    margin-right: 200px;
+    margin-left: 200px;
+    padding: 30px;
+}
+</style>
+</head>
+
+<body>
+    <div class="all">
+    <title>Brennan's website</title>
+
+    <div class="titleBox">
+    <div class="titleText">
+        <strong>Brennan's Website</strong>
+    </div>
+    <div class="link">
+        <a href="{{ url_for('register') }}"><br/>Register</a>
+    </div>
+    </div>
+
+    <div class="formBox">
+    <div class="pageTitle">
+        <a>{{ title }}</a>
+    </div>
+    <form action="/view" method="POST" novalidate>
+        <input type='hidden' name='csrfToken' value='{{csrf}}'/>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for category, message in messages %}
+                    {% if category == 'requestError' %}
+                        <span style="color: red;">[{{ message }}]</span>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.email.label }}<br>
+            {{ form.email(size=32) }}<br>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class=flashes>
+                    {% for category, message in messages %}
+                        {% if category == 'emailError' %}
+                        <span style="color: red;">[{{ message }}]</span>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}<br>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class=flashes>
+                    {% for category, message in messages %}
+                        {% if category == 'passwordError' %}
+                        <span style="color: red;">[{{ message }}]</span>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        </p>
+        <input type="submit" value="Sign in"/>
+    </form>
+    </div>
+    </div>
+</body>
+</html>

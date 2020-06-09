@@ -1,0 +1,94 @@
+<html>
+<head>
+<style>
+.regText {
+    font-size: 15px;
+    font-family: verdana;
+}
+.link {
+    font-size: 20px;
+    font-family: verdana;
+}
+.titleText {
+    font-size: 40px;
+    font-family: verdana;
+}
+.pageTitle {
+    font-size: 30px;
+    font-family: verdana;
+}
+.all {
+    font-size: 13px;
+    font-family: verdana;
+    text-align: center;
+}
+.titleBox {
+    background-color: rgb(111, 196, 118);
+    margin-right: 50px;
+    margin-left: 50px;
+    padding: 30px;
+}
+.formBox {
+    background-color: lightblue;
+    margin-right: 50px;
+    margin-left: 50px;
+    padding: 30px;
+}
+.centerThis {
+    text-align: center
+}
+.sectionText {
+    font-size: 22px;
+}
+td, th {
+    font-size: 13px;
+    width: 50%;
+    border-style: none;
+    text-align: left;
+    padding: 8px;
+}
+table {
+    border-style: none;
+    border-collapse: collapse;
+    width: 90%;
+}
+</style>
+</head>
+
+<body>
+    <div class="all">
+    <title>Brennan's website</title>
+    
+    <div class="titleBox">
+    <div class="titleText">
+        <strong>Brennan's Website</strong>
+    </div>
+    <div class="link">
+        <a href="{{ url_for('mainPage') }}"><br/>Back to main page</a>
+    </div>  
+    
+    <div class="pageTitle">
+        <br/>
+        <a>Grouping app</a>
+    </div>
+    </div>
+    
+
+    <div class="formBox">
+    <form action="/pair" method="POST" enctype=multipart/form-data>
+        <input type="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+        <input type="submit" value="Submit"/>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for category, message in messages %}
+                    {% if category == 'file error' %}
+                    <span style="color: red;">[{{ message }}]</span>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        
+    </form>
