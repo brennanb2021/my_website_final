@@ -13,3 +13,4 @@ class Config(object):
     SESSION_FILE_DIR =  mkdtemp()
     SESSION_PERMANENT = False
     SESSION_TYPE = "filesystem"
+    APPLICATION_ROOT = '/app'
