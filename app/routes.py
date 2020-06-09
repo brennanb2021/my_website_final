@@ -23,6 +23,8 @@ sessionTokens = {} #sessiontoken:user object
 cache.set("sessionTokens", sessionTokens)
 csrfTokens = {} #csrfToken:boolean
 cache.set("csrfTokens", csrfTokens)
+for i in 10:
+    print("HELLO")
 #cookie = when someone logs in --> cookie sticks around
 
 #different urls that application implements
