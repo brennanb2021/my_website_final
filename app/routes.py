@@ -67,6 +67,7 @@ def registerPost():
     token = form1.get('csrfToken')
     if not (token in csrfTokens): #if the issued token from the previous page is not in dict
         flash("Invalid Form Request", 'requestError') #they didn't go thru the website
+        print("invalid form request on register")
         return redirect(url_for('register')) #begone
     del csrfTokens[token] #remove this token from the dict
     
@@ -137,7 +138,7 @@ def registerPost():
 def view():
     sessionID = request.cookies.get("user") #get the session token from the previous page cookies
     if not(checkUserLoggedIn(sessionID)):
-        print("on view")
+        print("you are not logged in on view")
         return redirect(url_for('index'))
 
     id = sessionTokens[sessionID].id #if they go to the url without inputting an id, set it to the id of the user currently logged in
@@ -166,6 +167,7 @@ def viewPost():
     token = form1.get('csrfToken')
     if not (token in csrfTokens): #if the issued token from the previous page is not in dict
         flash("Invalid Form Request", 'requestError') #they didn't go thru the website
+        print("invalid form request on viewpost")
         return redirect(url_for('index')) #begone
     del csrfTokens[token] #remove this token from the dict
     
@@ -222,6 +224,7 @@ def logout():
     token = form1.get('csrfToken')
     if not (token in csrfTokens): #if the issued token from the previous page is not in dict
         flash("Invalid Form Request", 'requestError') #they didn't go thru the website
+        print("invalid form request on logout")
         return redirect(url_for('index'))
     del csrfTokens[token] #remove this token from the dict
 
@@ -240,6 +243,7 @@ def deleteProfile():
     token = form1.get('csrfToken')
     if not (token in csrfTokens): #if the issued token from the previous page is not in dict
         flash("Invalid Form Request", 'requestError') #they didn't go thru the website
+        print("invalid form request on deleteprofile")
         return redirect(url_for('index'))
     del csrfTokens[token] #remove this token from the dict
 
@@ -262,6 +266,7 @@ def changeAccountInformation():
     token = form1.get('csrfToken')
     if not (token in csrfTokens): #if the issued token from the previous page is not in dict
         flash("Invalid Form Request", 'requestError') #they didn't go thru the website
+        print("invalid form request on changeAccountInfo")
         return redirect(url_for('index'))
     del csrfTokens[token] #remove this token from the dict
 
@@ -287,7 +292,7 @@ def changeAccountInformation():
 def mainPage():
     sessionID = request.cookies.get("user") #get the session token from the previous page cookies
     if not(checkUserLoggedIn(sessionID)):
-        print("on mainpage")
+        print("you are not logged in on mainpage")
         return redirect(url_for('index'))
 
     id = sessionTokens[sessionID].id #get id of user logged in
@@ -308,7 +313,7 @@ News scraper
 def newsScraperGet():
     sessionID = request.cookies.get("user") #get the session token from the previous page cookies
     if not(checkUserLoggedIn(sessionID)):
-        print("on newsScraper")
+        print("you are not logged in on newsScraper")
         return redirect(url_for('index'))
     
     with open('./app/templates/scraperPage.html','w') as fCopy: #reset file
@@ -440,7 +445,7 @@ grouping app
 def pairGet():
     sessionID = request.cookies.get("user") #get the session token from the previous page cookies
     if not(checkUserLoggedIn(sessionID)):
-        print("on pair")
+        print("you are not logged in on pair")
         return redirect(url_for('index'))
 
     with open('./app/templates/pair.html','w') as fCopy: #reset file
@@ -484,7 +489,7 @@ Bullet Hell game
 def runBulletHellGame():
     sessionID = request.cookies.get("user") #get the session token from the previous page cookies
     if not(checkUserLoggedIn(sessionID)):
-        print("on bulleth ell")
+        print("you are not logged in on bulleth ell")
         return redirect(url_for('index'))
     return render_template('bulletHellGame.html')
 
