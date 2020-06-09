@@ -137,7 +137,7 @@ def registerPost():
         token = form1.get('csrfToken')
         token = uuid4()
         csrfTokens[str(token)] = True
-    cache.set("csrfTokens", csrfTokens) #testing
+        cache.set("csrfTokens", csrfTokens) #testing
         if request.cookies.get("user") in cache.get("sessionTokens"): #they came from profile page
             return redirect(url_for('index'))
         title="Register"
