@@ -55,7 +55,7 @@ def register():
     
     token = uuid4()
     cache.get("csrfTokens")[str(token)] = True #give user a session token
-    print("register get", cache.get("sessionTokens"))
+    print("register get", cache.get("csrfTokens"))
     
     title="Register"
     return render_template('register.html', form=form, csrf=token, title=title)
@@ -63,7 +63,7 @@ def register():
 
 @app.route('/register', methods=['POST'])
 def registerPost():
-    print("register post", cache.get("sessionTokens"))
+    print("register post", cache.get("csrfTokens"))
 
     form = RegistrationForm()
     form1 = request.form
