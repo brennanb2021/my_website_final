@@ -38,6 +38,7 @@ def index():
 
     form = LoginForm()
     title="Sign in"
+    print("rendering index.html")
     return render_template('index.html', form=form, csrf=token, title=title)
 
 
