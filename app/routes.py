@@ -478,9 +478,9 @@ Bullet Hell game
 '''
 @app.route('/bulletHell', methods=['GET'])
 def runBulletHellGame():
-    """sessionID = request.cookies.get("user") #get the session token from the previous page cookies
+    sessionID = request.cookies.get("user") #get the session token from the previous page cookies
     if not(checkUserLoggedIn(sessionID)):
-        return redirect(url_for('index'))"""
+        return redirect(url_for('index'))
     return render_template('bulletHellGame.html')
 
 def checkUserLoggedIn(sessionID):

@@ -22,13 +22,17 @@ void setup() {
   player.show();
   start = true;
   levels = [false, false, false, false, false, false, false, false, false];
+  gameOverBool = false;
 }
 
 void draw() {
 
-  if(player.getHealth() <= 0) {
+  if(gameOverBool) {
     gameOver();
     return;
+  }
+  if( player.getHealth() <= 0) {
+    gameOverBool = true;
   }
   
   if(start) {
@@ -58,7 +62,7 @@ void draw() {
   if(levels[0]) {
     wave0_all();
   } else if(levels[1]) {
-    wave1_standard();
+    wave1_standard(true);
   } else if(levels[2]) {
     wave2_big();
   } else if(levels[3]) {
@@ -112,8 +116,8 @@ void draw() {
 
 void wave0_all() {
   //enemy stuff. THIS IS THE LEVEL
-  if(enemiesDefeated < 30) { //spawn 30 standard enemies
-    wave1_standard();
+  if(enemiesDefeated+enemies.size() < 30) { //spawn 30 standard enemies
+    wave1_standard(false);
   } else if (enemiesDefeated < 31) { //enemiesDefeated will be 30 now. Spawn a big enemy
     wave2_big();
   } else if (enemiesDefeated < 32) { //score will be 31 now. Spawn two big enemies
@@ -130,23 +134,27 @@ void wave0_all() {
     wave8_spinning();
   }
 }
-void wave1_standard() {
+void wave1_standard(onlyThis) {
   //enemy spawn rate
-  if (enemiesDefeated+enemies.size() < 30) {
-    if(spawnRate >= 30) { //stop increasing the spawn rate.
-      increaseSpawnRate+=2;
-      if(increaseSpawnRate >= 100) { //should decrease spawnRate every 300 frames
-        spawnRate-=2;
-        increaseSpawnRate = 0;
-      }
+  if(spawnRate >= 30) { //stop increasing the spawn rate.
+    increaseSpawnRate+=2;
+    if(increaseSpawnRate >= 100) { //should decrease spawnRate every 300 frames
+      spawnRate-=2;
+      increaseSpawnRate = 0;
     }
-    spawnAStandardEnemy++; //should increase this every frame. 200 is when difficulty increases.
-    if(spawnAStandardEnemy >= spawnRate) { //should increase spawns at a constant rate
-      if(enemies.size() < 6) {
-        enemies.add(new StandardEnemy((int)random(30, width-30)));
-        spawnAStandardEnemy = 0;
-      }
+  }
+  spawnAStandardEnemy++; //should increase this every frame. 200 is when difficulty increases.
+  if(spawnAStandardEnemy >= spawnRate) { //should increase spawns at a constant rate
+    if(enemies.size() < 7) {
+      enemies.add(new StandardEnemy((int)random(30, width-30)));
+      spawnAStandardEnemy = 0;
     }
+  }
+
+  if(onlyThis && enemiesDefeated == 30 && enemise.size() == 0) { //the player selected this wave only
+    spawnAStandardEnemy = 0; //Counter to tell if I should spawn a StandardEnemy
+    increaseSpawnRate = 0;
+    spawnRate = 150; //this will decrease at a constant rate
   }
 }
 void wave2_big() {
@@ -208,7 +216,7 @@ void mainScreen() {
 
 //keys pressed/released
 void keyPressed() {
-  if(paused) {
+  if(paused || gameOverBool) {
     if (key == '\n') {
       setup();
     }
