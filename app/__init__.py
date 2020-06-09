@@ -10,6 +10,8 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+from werkzeug.middleware.proxy_fix import ProxyFix
+app.wsgi_app = ProxyFix(app.wsgi_app)
 
 from app import routes
 from app.CsrfDb import models
