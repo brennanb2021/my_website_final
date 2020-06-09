@@ -23,8 +23,6 @@ sessionTokens = {} #sessiontoken:user object
 cache.set("sessionTokens", sessionTokens)
 csrfTokens = {} #csrfToken:boolean
 cache.set("csrfTokens", csrfTokens)
-for i in range(10):
-    print("HELLO")
 #cookie = when someone logs in --> cookie sticks around
 
 #different urls that application implements
@@ -35,7 +33,6 @@ def index():
     sessionID = request.cookies.get("user") #get the session token from the previous page cookies
     if sessionID in cache.get("sessionTokens"): #valid session token -- user already logged in
         return redirect(url_for('view', id=cache.get("sessionTokens")[sessionID].id))
-
     
     token = uuid4()
     csrfTokens[str(token)] = True
