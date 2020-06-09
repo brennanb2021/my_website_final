@@ -137,9 +137,9 @@ def registerPost():
 @app.route('/view', methods=['GET'])
 def view():
     sessionID = request.cookies.get("user") #get the session token from the previous page cookies
-    if not(checkUserLoggedIn(sessionID)):
+    """if not(checkUserLoggedIn(sessionID)):
         print("you are not logged in on view")
-        return redirect(url_for('index'))
+        return redirect(url_for('index'))"""
 
     id = sessionTokens[sessionID].id #if they go to the url without inputting an id, set it to the id of the user currently logged in
     id = request.args.get("id")
@@ -291,9 +291,9 @@ def changeAccountInformation():
 @app.route('/mainPage', methods=['GET'])
 def mainPage():
     sessionID = request.cookies.get("user") #get the session token from the previous page cookies
-    if not(checkUserLoggedIn(sessionID)):
+    """if not(checkUserLoggedIn(sessionID)):
         print("you are not logged in on mainpage")
-        return redirect(url_for('index'))
+        return redirect(url_for('index'))"""
 
     id = sessionTokens[sessionID].id #get id of user logged in
 
@@ -312,9 +312,9 @@ News scraper
 @app.route('/newsScraper', methods=['GET'])
 def newsScraperGet():
     sessionID = request.cookies.get("user") #get the session token from the previous page cookies
-    if not(checkUserLoggedIn(sessionID)):
+    """if not(checkUserLoggedIn(sessionID)):
         print("you are not logged in on newsScraper")
-        return redirect(url_for('index'))
+        return redirect(url_for('index'))"""
     
     with open('./app/templates/scraperPage.html','w') as fCopy: #reset file
         fCopy.write("")
@@ -444,9 +444,9 @@ grouping app
 @app.route('/pair', methods=['GET'])
 def pairGet():
     sessionID = request.cookies.get("user") #get the session token from the previous page cookies
-    if not(checkUserLoggedIn(sessionID)):
+    """if not(checkUserLoggedIn(sessionID)):
         print("you are not logged in on pair")
-        return redirect(url_for('index'))
+        return redirect(url_for('index'))"""
 
     with open('./app/templates/pair.html','w') as fCopy: #reset file
         fCopy.write("")
@@ -488,17 +488,17 @@ Bullet Hell game
 @app.route('/bulletHell', methods=['GET'])
 def runBulletHellGame():
     sessionID = request.cookies.get("user") #get the session token from the previous page cookies
-    if not(checkUserLoggedIn(sessionID)):
+    """if not(checkUserLoggedIn(sessionID)):
         print("you are not logged in on bulleth ell")
-        return redirect(url_for('index'))
+        return redirect(url_for('index'))"""
     return render_template('bulletHellGame.html')
 
 def checkUserLoggedIn(sessionID):
     
-    """#Checks if the user is actually logged in -- commented out for easier testing
+    #Checks if the user is actually logged in -- commented out for easier testing
     if not (sessionID in sessionTokens): #not a valid session token
         flash("You are not logged in.", 'requestError')
         return False
-    """
+    
 
     return True
