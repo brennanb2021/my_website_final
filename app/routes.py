@@ -19,7 +19,9 @@ from werkzeug.utils import secure_filename
 csrf database
 '''
 sessionTokens = {} #sessiontoken:user object
+cache.set("sessionTokens", sessionTokens)
 csrfTokens = {} #csrfToken:boolean
+cache.set("csrfTokens", csrfTokens)
 #cookie = when someone logs in --> cookie sticks around
 
 #different urls that application implements
@@ -29,12 +31,12 @@ csrfTokens = {} #csrfToken:boolean
 def index():
 
     sessionID = request.cookies.get("user") #get the session token from the previous page cookies
-    if sessionID in sessionTokens: #valid session token -- user already logged in
-        return redirect(url_for('view', id=sessionTokens[sessionID].id))
+    if sessionID in cache.get("sessionTokens"): #valid session token -- user already logged in
+        return redirect(url_for('view', id=cache.get("sessionTokens")[sessionID].id))
 
     
     token = uuid4()
-    csrfTokens[str(token)] = True #give user a session token
+    cache.get("csrfTokens")[str(token)] = True #give user a session token
 
     form = LoginForm()
     title="Sign in"
@@ -48,11 +50,11 @@ def register():
     form = RegistrationForm()
 
     sessionID = request.cookies.get("user") #get the session token from the previous page cookies
-    if sessionID in sessionTokens: #valid session token -- user already logged in
-        return redirect(url_for('view', id=sessionTokens[sessionID].id))
+    if sessionID in cache.get("sessionTokens"): #valid session token -- user already logged in
+        return redirect(url_for('view', id=cache.get("sessionTokens")[sessionID].id))
     
     token = uuid4()
-    csrfTokens[str(token)] = True #give user a session token
+    cache.get("csrfTokens")[str(token)] = True #give user a session token
     
     title="Register"
     return render_template('register.html', form=form, csrf=token, title=title)
@@ -66,11 +68,11 @@ def registerPost():
 
     #check session token
     token = form1.get('csrfToken')
-    if not (token in csrfTokens): #if the issued token from the previous page is not in dict
+    if not (token in cache.get("csrfTokens")): #if the issued token from the previous page is not in dict
         flash("Invalid Form Request", 'requestError') #they didn't go thru the website
         print("invalid form request on register")
         return redirect(url_for('register')) #begone
-    del csrfTokens[token] #remove this token from the dict
+    del cache.get("csrfTokens")[token] #remove this token from the dict
     
     success = True
     if form1.get("email") != None: #if they are making a new account
@@ -122,14 +124,14 @@ def registerPost():
             db.session.add(profile)
             db.session.commit()
         else: #they came from view to change their password
-            User.query.filter_by(id=sessionTokens[request.cookies.get("user")].id).first().set_password(form1.get('password')) #set hashed pwd
+            User.query.filter_by(id=cache.get("sessionTokens")[request.cookies.get("user")].id).first().set_password(form1.get('password')) #set hashed pwd
             db.session.commit()
         return redirect(url_for('index')) #success: get request to index page
     else:
         token = form1.get('csrfToken')
         token = uuid4()
-        csrfTokens[str(token)] = True #give user a session token
-        if request.cookies.get("user") in sessionTokens: #they came from profile page
+        cache.get("csrfTokens")[str(token)] = True #give user a session token
+        if request.cookies.get("user") in cache.get("sessionTokens"): #they came from profile page
             return redirect(url_for('index'))
         title="Register"
         return render_template('register.html', form=form, csrf=token, title=title) #back to register
@@ -142,18 +144,18 @@ def view():
         print("you are not logged in on view")
         return redirect(url_for('index'))
 
-    id = sessionTokens[sessionID].id #if they go to the url without inputting an id, set it to the id of the user currently logged in
+    id = cache.get("sessionTokens")[sessionID].id #if they go to the url without inputting an id, set it to the id of the user currently logged in
     id = request.args.get("id")
     
     token = uuid4()
-    csrfTokens[str(token)] = True #give user a session token
+    cache.get("csrfTokens")[str(token)] = True #give user a session token
 
     formPwd = EditPasswordForm()
     formFnLn = EditAccountForm()
 
     profile = Profile.query.filter_by(user_id=id).first() #get the correct profile by inputting user id
 
-    profile_page_is_logged_in = (profile.user_id == sessionTokens[sessionID].id)
+    profile_page_is_logged_in = (profile.user_id == cache.get("sessionTokens")[sessionID].id)
     #^if the user looking at this person's profile page is currently logged in, let them logout from or delete their account.
     title="Profile Page"
     return render_template('view.html', title=title, logged_in=profile_page_is_logged_in, profile=profile, formPwd=formPwd, formFnLn=formFnLn, csrf=token)
@@ -166,11 +168,11 @@ def viewPost():
     form1 = request.form 
     #check session token
     token = form1.get('csrfToken')
-    if not (token in csrfTokens): #if the issued token from the previous page is not in dict
+    if not (token in cache.get("csrfTokens")): #if the issued token from the previous page is not in dict
         flash("Invalid Form Request", 'requestError') #they didn't go thru the website
         print("invalid form request on viewpost")
         return redirect(url_for('index')) #begone
-    del csrfTokens[token] #remove this token from the dict
+    del cache.get("csrfTokens")[token] #remove this token from the dict
     
     success = True
     if form1.get('email') == "": #no email entered
@@ -191,7 +193,7 @@ def viewPost():
         id = user.id
         resp = make_response(redirect(url_for('mainPage'))) #get view should send to main page
         sessionToken = str(uuid4())
-        sessionTokens[sessionToken] = user #change current user
+        cache.get("sessionTokens")[sessionToken] = user #change current user
         resp.set_cookie('user', sessionToken) #set session token in a cookie
         return resp
     else:
@@ -200,7 +202,7 @@ def viewPost():
 @app.route('/members', methods=['GET'])
 def members(): #show all accounts currently registered
 
-    if request.cookies.get("user") in sessionTokens: #a user is logged in
+    if request.cookies.get("user") in cache.get("sessionTokens"): #a user is logged in
         users = User.query.all()
         display = []
         for user in users:
@@ -209,7 +211,7 @@ def members(): #show all accounts currently registered
                 item = dict(first_name=profile.first_name, last_name=profile.last_name, email=user.email, id=user.get_id())
                 display.append(item)
 
-        user_currently_logged_in = sessionTokens[request.cookies.get("user")]
+        user_currently_logged_in = cache.get("sessionTokens")[request.cookies.get("user")]
         title="Accounts Registered"
         return render_template('members.html', title=title, display=display, logged_in_id=user_currently_logged_in.id)
     
@@ -223,16 +225,16 @@ def logout():
     
     #check session token
     token = form1.get('csrfToken')
-    if not (token in csrfTokens): #if the issued token from the previous page is not in dict
+    if not (token in cache.get("csrfTokens")): #if the issued token from the previous page is not in dict
         flash("Invalid Form Request", 'requestError') #they didn't go thru the website
         print("invalid form request on logout")
         return redirect(url_for('index'))
-    del csrfTokens[token] #remove this token from the dict
+    del cache.get("csrfTokens")[token] #remove this token from the dict
 
     sessionID = request.cookies.get('user') #get the session token
     #means they hit logout btn
-    if sessionID in sessionTokens:
-        del sessionTokens[sessionID] #remove this user's session token from the dict
+    if sessionID in cache.get("sessionTokens"):
+        del cache.get("sessionTokens")[sessionID] #remove this user's session token from the dict
 
     return redirect(url_for('index'))
 
@@ -242,19 +244,19 @@ def deleteProfile():
 
     #check session token
     token = form1.get('csrfToken')
-    if not (token in csrfTokens): #if the issued token from the previous page is not in dict
+    if not (token in cache.get("csrfTokens")): #if the issued token from the previous page is not in dict
         flash("Invalid Form Request", 'requestError') #they didn't go thru the website
         print("invalid form request on deleteprofile")
         return redirect(url_for('index'))
-    del csrfTokens[token] #remove this token from the dict
+    del cache.get("csrfTokens")[token] #remove this token from the dict
 
     sessionID = request.cookies.get('user') #get the session token
-    Profile.query.filter_by(user_id=sessionTokens[sessionID].id).delete()
-    User.query.filter_by(id=sessionTokens[sessionID].id).delete()
+    Profile.query.filter_by(user_id=cache.get("sessionTokens")[sessionID].id).delete()
+    User.query.filter_by(id=cache.get("sessionTokens")[sessionID].id).delete()
     db.session.commit()
 
-    if sessionID in sessionTokens:
-        del sessionTokens[sessionID] #remove this user's session token from the dict (log them out)
+    if sessionID in cache.get("sessionTokens"):
+        del cache.get("sessionTokens")[sessionID] #remove this user's session token from the dict (log them out)
 
     return redirect(url_for('index'))
 
@@ -265,11 +267,11 @@ def changeAccountInformation():
 
     #check session token
     token = form1.get('csrfToken')
-    if not (token in csrfTokens): #if the issued token from the previous page is not in dict
+    if not (token in cache.get("csrfTokens")): #if the issued token from the previous page is not in dict
         flash("Invalid Form Request", 'requestError') #they didn't go thru the website
         print("invalid form request on changeAccountInfo")
         return redirect(url_for('index'))
-    del csrfTokens[token] #remove this token from the dict
+    del cache.get("csrfTokens")[token] #remove this token from the dict
 
     sessionID = request.cookies.get('user') #get the session token
 
@@ -281,9 +283,9 @@ def changeAccountInformation():
         flash(u'Please enter a last name', 'lastNameError')
         success = False
     if not(success):
-        return redirect(url_for('view', id=sessionTokens[sessionID].id))
-    Profile.query.filter_by(user_id=sessionTokens[sessionID].id).first().set_first_name(form1.get('first_name'))
-    Profile.query.filter_by(user_id=sessionTokens[sessionID].id).first().set_last_name(form1.get('last_name'))
+        return redirect(url_for('view', id=cache.get("sessionTokens")[sessionID].id))
+    Profile.query.filter_by(user_id=cache.get("sessionTokens")[sessionID].id).first().set_first_name(form1.get('first_name'))
+    Profile.query.filter_by(user_id=cache.get("sessionTokens")[sessionID].id).first().set_last_name(form1.get('last_name'))
     db.session.commit()
 
     return redirect(url_for('index'))
@@ -296,11 +298,11 @@ def mainPage():
         print("you are not logged in on mainpage")
         return redirect(url_for('index'))
 
-    id = sessionTokens[sessionID].id #get id of user logged in
+    id = cache.get("sessionTokens")[sessionID].id #get id of user logged in
 
     profile = Profile.query.filter_by(user_id=id).first() #get the correct profile by inputting user id
 
-    profile_page_is_logged_in = (profile.user_id == sessionTokens[sessionID].id)
+    profile_page_is_logged_in = (profile.user_id == cache.get("sessionTokens")[sessionID].id)
     #^if the user looking at this person's profile page is currently logged in, let them logout from or delete their account.
     title="Main Page"
     return render_template('mainPage.html', title=title, profile=profile)
@@ -497,7 +499,7 @@ def runBulletHellGame():
 def checkUserLoggedIn(sessionID):
     
     #Checks if the user is actually logged in -- commented out for easier testing
-    if not (sessionID in sessionTokens): #not a valid session token
+    if not (sessionID in cache.get("sessionTokens")): #not a valid session token
         flash("You are not logged in.", 'requestError')
         return False
     
