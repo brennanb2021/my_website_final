@@ -137,6 +137,7 @@ def registerPost():
 def view():
     sessionID = request.cookies.get("user") #get the session token from the previous page cookies
     if not(checkUserLoggedIn(sessionID)):
+        console.log("on view")
         return redirect(url_for('index'))
 
     id = sessionTokens[sessionID].id #if they go to the url without inputting an id, set it to the id of the user currently logged in
@@ -286,6 +287,7 @@ def changeAccountInformation():
 def mainPage():
     sessionID = request.cookies.get("user") #get the session token from the previous page cookies
     if not(checkUserLoggedIn(sessionID)):
+        console.log("on mainpage")
         return redirect(url_for('index'))
 
     id = sessionTokens[sessionID].id #get id of user logged in
@@ -306,6 +308,7 @@ News scraper
 def newsScraperGet():
     sessionID = request.cookies.get("user") #get the session token from the previous page cookies
     if not(checkUserLoggedIn(sessionID)):
+        console.log("on newsScraper")
         return redirect(url_for('index'))
     
     with open('./app/templates/scraperPage.html','w') as fCopy: #reset file
@@ -437,6 +440,7 @@ grouping app
 def pairGet():
     sessionID = request.cookies.get("user") #get the session token from the previous page cookies
     if not(checkUserLoggedIn(sessionID)):
+        console.log("on pair")
         return redirect(url_for('index'))
 
     with open('./app/templates/pair.html','w') as fCopy: #reset file
@@ -480,6 +484,7 @@ Bullet Hell game
 def runBulletHellGame():
     sessionID = request.cookies.get("user") #get the session token from the previous page cookies
     if not(checkUserLoggedIn(sessionID)):
+        console.log("on bulleth ell")
         return redirect(url_for('index'))
     return render_template('bulletHellGame.html')
 
