@@ -10,6 +10,6 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False #dont need a notification every time the database is changed
     #configure app.db database, store it in basedir.
     TEMPLATES_AUTO_RELOAD=True
-    #SESSION_FILE_DIR =  mkdtemp()
+    SESSION_FILE_DIR =  mkdtemp()
     SESSION_PERMANENT = False
     SESSION_TYPE = "filesystem"
