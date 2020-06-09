@@ -30,7 +30,6 @@ cache.set("csrfTokens", csrfTokens)
 @app.route('/', methods=['GET']) #GET?
 @app.route('/index', methods=['GET']) 
 def index():
-
     sessionID = request.cookies.get("user") #get the session token from the previous page cookies
     if sessionID in cache.get("sessionTokens"): #valid session token -- user already logged in
         return redirect(url_for('view', id=cache.get("sessionTokens")[sessionID].id))
@@ -56,6 +55,7 @@ def register():
     
     token = uuid4()
     cache.get("csrfTokens")[str(token)] = True #give user a session token
+    print("register get", cache.get("sessionTokens"))
     
     title="Register"
     return render_template('register.html', form=form, csrf=token, title=title)
@@ -63,6 +63,7 @@ def register():
 
 @app.route('/register', methods=['POST'])
 def registerPost():
+    print("register post", cache.get("sessionTokens"))
 
     form = RegistrationForm()
     form1 = request.form

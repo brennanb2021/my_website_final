@@ -45,7 +45,5 @@ else:
 print("initializing cache")
 
 
-
-
 from app import routes
 from app.CsrfDb import models
