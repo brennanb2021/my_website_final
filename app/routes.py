@@ -54,7 +54,9 @@ def register():
         return redirect(url_for('view', id=cache.get("sessionTokens")[sessionID].id))
     
     token = uuid4()
-    cache.get("csrfTokens")[str(token)] = True #give user a session token
+    #cache.get("csrfTokens")[str(token)] = True #give user a session token
+    csrfTokens[str(token)] = True
+    cache.set("csrfTokens", csrfTokens) #testing
     print("register get", cache.get("csrfTokens"))
     
     title="Register"
