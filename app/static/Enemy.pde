@@ -40,6 +40,10 @@ class Enemy {
     offsetHealthBar = healthBar;
   }
   
+  boolean isHidden() {
+    return hideThis;
+  }
+  
   boolean checkCollision(myBullet bullet) {
     if(hideThis) {
       return false; //no collision if it has disappeared.

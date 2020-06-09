@@ -96,7 +96,7 @@ void draw() {
       cnt++;
     } //check for collisions done
     
-    if((thisCollided && enemy.getHealthLeft() <= 0)) { //the enemy got destroyed. 
+    if(thisCollided && enemy.getHealthLeft() <= 0 && !enemy.isHidden()) { //the enemy got destroyed. 
       player.addCombo();
       enemiesDefeated+=1;
       score+=enemy.getScoreBonus() + player.getCombo();
