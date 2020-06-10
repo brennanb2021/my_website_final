@@ -12,16 +12,16 @@ class SpinningEnemyTurret extends Enemy {
     int[] offsetHealthBar = {-20, -8};
     setOffsetHealthBar(offsetHealthBar);
     fireCoolingTime = 0;
-    this.fireBulletCnt = 230;
+    this.fireBulletCnt = 140;
     this.angle = angle;
     this.x = x;
     this.y = y;
-    this.velocity = 8;
+    this.velocity = 10;
     isHidden = false;
   }
   
   void subtractFromHealth() {
-    healthLeft-=23;
+    healthLeft-=19;
   }
   
   void setBulletArr(ArrayList<EnemyBullet> a) {
@@ -46,7 +46,7 @@ class SpinningEnemyTurret extends Enemy {
       angle = 180-angle;
     }
     if(shouldBounceVertical()) {
-        angle = 90+((Math.abs(angle)%360)-90);
+      angle = 90+((Math.abs(angle)%360)-90);
     }
     
     if(healthLeft <= 0) { //idkWHERE DOES IT CALL HIDE ON THIS
@@ -97,13 +97,14 @@ class SpinningEnemyTurret extends Enemy {
   }
   
   void fireBullets() {
-    float angle = (((float)fireBulletCnt/17)*19)%360; //fire in a circle. /15 = slowly.
+    float angle = (((float)fireBulletCnt/30)*19)%360; //fire in a circle. /30 = slowly.
     StandardEnemyBullet newBullet = new StandardEnemyBullet(x, y, angle);
     thisEnemyBullets.add(newBullet);
 
     angle = angle+180; //fire in a circle
     StandardEnemyBullet newBullet = new StandardEnemyBullet(x, y, angle);
     thisEnemyBullets.add(newBullet);
+
   }
   
 }

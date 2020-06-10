@@ -1,7 +1,7 @@
 class SpinningEnemyBullet extends EnemyBullet{
   
   StandardEnemyBullet(float x, float y, float angle) {
-    super(x, y, 9, 9, angle, 10, 2); //FAST BULLET
+    super(x, y, 9, 9, angle, 6, 2); //(changed-not) FAST BULLET
     int[] rgb = {110, 35, 62};
     setRGB(rgb);
   }
