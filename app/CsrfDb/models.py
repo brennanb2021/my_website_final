@@ -32,9 +32,8 @@ class SessionTokens(db.Model):
         self.sessionID = sessID
 
 class CsrfTokens(db.Model):
+
     token = db.Column(db.String(128), primary_key=True) #id = primary key
-    def set_csrfToken(self, csrftoken):
-        self.token = csrftoken
 
 class Profile(UserMixin, db.Model):
 
