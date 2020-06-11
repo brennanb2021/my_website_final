@@ -33,7 +33,7 @@ class SessionTokens(db.Model):
 
 class CsrfTokens(db.Model):
 
-    token = db.Column(db.String(128), primary_key=True) #id = primary key
+    token = db.Column(db.String(128), primary_key=True) #primary key
 
 class Profile(UserMixin, db.Model):
 

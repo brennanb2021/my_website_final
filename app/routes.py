@@ -34,9 +34,10 @@ def index():
         return redirect(url_for('view', id=userID))
 
     
-    tokenN = uuid4()
+    tokenN = str(uuid4())
     newToken = CsrfTokens(token=tokenN) #make a new token
     db.session.add(newToken) #add to database
+    db.session.commit()
 
     form = LoginForm()
     title="Sign in"
@@ -53,10 +54,10 @@ def register():
     if userID != None: #valid session token -- user already logged in
         return redirect(url_for('view', id=userID))
     
-    tokenN = uuid4()
+    tokenN = str(uuid4())
     newToken = CsrfTokens(token=tokenN) #make a new token
     db.session.add(newToken) #add to database
-    
+    db.session.commit()
     title="Register"
     return render_template('register.html', form=form, csrf=tokenN, title=title)
 
@@ -129,7 +130,7 @@ def registerPost():
             db.session.commit()
         return redirect(url_for('index')) #success: get request to index page
     else:
-        tokenN = uuid4()
+        tokenN = str(uuid4())
         newToken = CsrfTokens(token=tokenN) #make a new token
         db.session.add(newToken) #add to database
         if SessionTokens.query.filter_by(sessionID=request.cookies.get("user")).first() != None: #they came from profile page
@@ -147,9 +148,10 @@ def view():
     id = SessionTokens.query.filter_by(sessionID=sessionID1).first().getUserId() #if they go to the url without inputting an id, set it to the id of the user currently logged in
     id = request.args.get("id")
     
-    tokenN = uuid4()
+    tokenN = str(uuid4())
     newToken = CsrfTokens(token=tokenN) #make a new token
     db.session.add(newToken) #add to database
+    db.session.commit()
 
     formPwd = EditPasswordForm()
     formFnLn = EditAccountForm()
