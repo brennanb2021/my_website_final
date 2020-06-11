@@ -29,7 +29,7 @@ csrfTokens = {} #csrfToken:boolean HOW DO YOU DO THIS DATABASE
 def index():
 
     sessionID1 = request.cookies.get("user") #get the session token from the previous page cookies
-    userID = SessionTokens.query.filter_by(sessionID=sessionID1).first().getUserId()
+    userID = SessionTokens.query.filter_by(sessionID=sessionID1).first()
     if userID != None: #valid session token -- user already logged in
         return redirect(url_for('view', id=userID))
 
@@ -48,7 +48,7 @@ def register():
     form = RegistrationForm()
 
     sessionID1 = request.cookies.get("user") #get the session token from the previous page cookies
-    userID = SessionTokens.query.filter_by(sessionID=sessionID1).first().getUserId()
+    userID = SessionTokens.query.filter_by(sessionID=sessionID1).first()
     if userID != None: #valid session token -- user already logged in
         return redirect(url_for('view', id=userID))
     
@@ -129,7 +129,7 @@ def registerPost():
         token = form1.get('csrfToken')
         token = uuid4()
         csrfTokens[str(token)] = True #give user a session token
-        if SessionTokens.query.filter_by(sessionID=request.cookies.get("user")).first().getUserId() != None: #they came from profile page
+        if SessionTokens.query.filter_by(sessionID=request.cookies.get("user")).first() != None: #they came from profile page
             return redirect(url_for('index'))
         title="Register"
         return render_template('register.html', form=form, csrf=token, title=title) #back to register
@@ -189,7 +189,10 @@ def viewPost():
         id = user.id
         resp = make_response(redirect(url_for('mainPage'))) #get view should send to main page
         sessionToken = str(uuid4())
-        SessionTokens.query.filter_by(sessionID=sessionToken).first().set_user(id) #change current user
+        newToken = SessionTokens(sessionID=sessionToken) #make a new token
+        db.session.add(newToken) #add to database
+        newToken.set_user(userId=id)
+        db.session.commit()
         resp.set_cookie('user', sessionToken) #set session token in a cookie
         return resp
     else:
@@ -198,7 +201,7 @@ def viewPost():
 @app.route('/members', methods=['GET'])
 def members(): #show all accounts currently registered
 
-    if SessionTokens.query.filter_by(sessionID=request.cookies.get("user")).first().getUserId() != None: #a user is logged in
+    if SessionTokens.query.filter_by(sessionID=request.cookies.get("user")).first() != None: #a user is logged in
         users = User.query.all()
         display = []
         for user in users:
@@ -228,7 +231,7 @@ def logout():
 
     sessionID1 = request.cookies.get('user') #get the session token
     #means they hit logout btn
-    if SessionTokens.query.filter_by(sessionID=sessionID1).first().getUserId() != None:
+    if SessionTokens.query.filter_by(sessionID=sessionID1).first() != None:
         SessionTokens.query.filter_by(sessionID=sessionID1).delete()
         db.session.commit() #remove this user's session token from the dict
 
@@ -250,7 +253,7 @@ def deleteProfile():
     User.query.filter_by(id=SessionTokens.query.filter_by(sessionID=sessionID1).first().getUserId()).delete()
     db.session.commit()
 
-    if SessionTokens.query.filter_by(sessionID=sessionID1).first().getUserId() != None:
+    if SessionTokens.query.filter_by(sessionID=sessionID1).first() != None:
         SessionTokens.query.filter_by(sessionID=sessionID1).delete()
         db.session.commit() #remove this user's session token from the dict (log them out)
 
@@ -278,7 +281,7 @@ def changeAccountInformation():
         flash(u'Please enter a last name', 'lastNameError')
         success = False
     if not(success):
-        return redirect(url_for('view', id=sessionTokens[sessionID].id))
+        return redirect(url_for('view', id=SessionTokens.query.filter_by(sessionID=sessionID1).first().getUserId()))
     Profile.query.filter_by(user_id=SessionTokens.query.filter_by(sessionID=sessionID1).first().getUserId()).first().set_first_name(form1.get('first_name'))
     Profile.query.filter_by(user_id=SessionTokens.query.filter_by(sessionID=sessionID1).first().getUserId()).first().set_last_name(form1.get('last_name'))
     db.session.commit()
@@ -296,7 +299,7 @@ def mainPage():
 
     profile = Profile.query.filter_by(user_id=id).first() #get the correct profile by inputting user id
 
-    profile_page_is_logged_in = (profile.user_id == SessionTokens.query.filter_by(sessionID=sessionID1).first().getUserId())
+    #profile_page_is_logged_in = (profile.user_id == SessionTokens.query.filter_by(sessionID=sessionID1).first().getUserId())
     #^if the user looking at this person's profile page is currently logged in, let them logout from or delete their account.
     title="Main Page"
     return render_template('mainPage.html', title=title, profile=profile)
@@ -490,7 +493,7 @@ def runBulletHellGame():
 def checkUserLoggedIn(sessionID1):
     
     #Checks if the user is actually logged in -- commented out for easier testing
-    userID = SessionTokens.query.filter_by(sessionID=sessionID1).first().getUserId()
+    userID = SessionTokens.query.filter_by(sessionID=sessionID1).first()
     if userID == None: #valid session token -- user already logged in
         flash("You are not logged in.", 'requestError')
         return False

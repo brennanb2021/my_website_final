@@ -20,7 +20,7 @@ class User(UserMixin, db.Model): #inherits from db.Model, base for flask-SQLAlch
 
 class SessionTokens(db.Model):
     sessionID = db.Column(db.String(128), primary_key=True) #id = primary key
-    correspondingUserId = db.column(db.Integer)
+    correspondingUserId = db.Column(db.Integer)
 
     def set_user(self, userId):
         self.correspondingUserId = userId
