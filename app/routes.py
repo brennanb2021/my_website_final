@@ -52,7 +52,7 @@ def register():
     sessionID1 = request.cookies.get("user") #get the session token from the previous page cookies
     userID = SessionTokens.query.filter_by(sessionID=sessionID1).first()
     if userID != None: #valid session token -- user already logged in
-        return redirect(url_for('view', id=userID))
+        return redirect(url_for('view', id=userID.getUserId()))
     
     tokenN = str(uuid4())
     newToken = CsrfTokens(token=tokenN) #make a new token
