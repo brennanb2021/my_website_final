@@ -18,6 +18,24 @@ class User(UserMixin, db.Model): #inherits from db.Model, base for flask-SQLAlch
     def check_password(self, password):
         return check_password_hash(self.password_hash, password) #<^=pwd hashing logic
 
+class SessionTokens(db.Model):
+    sessionID = db.Column(db.String(128), primary_key=True) #id = primary key
+    correspondingUserId = db.column(db.Integer)
+
+    def set_user(self, userId):
+        self.correspondingUserId = userId
+
+    def getUserId(self):
+        return self.correspondingUserId
+
+    def set_sessionID(self, sessID):
+        self.sessionID = sessID
+
+class CsrfTokens(db.Model):
+    token = db.Column(db.String(128), primary_key=True) #id = primary key
+    def set_csrfToken(self, csrftoken):
+        self.token = csrftoken
+
 class Profile(UserMixin, db.Model):
 
     def __repr__(self):
