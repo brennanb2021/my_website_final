@@ -32,6 +32,13 @@
     margin-left: 100px;
     padding: 30px;
 }
+.description {
+    margin-right: 100px;
+    margin-left: 100px;
+    font-size: 15px;
+    text-align:left;
+    font-family: verdana;
+}
 .processingEmbed {
     width: 600;
     height: 600;
@@ -66,15 +73,20 @@
     <br/>
     <a>Bullet Hell Game</a>
     </div>
+    <div class="description">
+    <br/>This program runs a bullet hell game.
+    <br/>Tools used:
+    <br/>   -Processing
+    <br/><br/>Controls:
+    <br/>WASD: movement
+    <br/>space: shoot
+    <br/>Hold j to limit movement for precise dodging
+    <br/>p: pause
+    <p> </p>
+    </div>
     </div>
 
     <div class="formBox">
-        Controls:<br/>
-        WASD: movement<br/>
-        space: shoot<br/>
-        Hold j to limit movement for precise dodging<br/>
-        p: pause<br/>
-        <p> </p>
         <canvas id="shooterGameEmbed" class="processingEmbed" data-processing-sources="{{url_for('static', filename='shooterGame.pde')}} 
                 {{url_for('static', filename='BigEnemy.pde')}}
                 {{url_for('static', filename='BouncingEnemy.pde')}}

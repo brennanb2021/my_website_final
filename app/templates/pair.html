@@ -35,10 +35,16 @@
     padding: 30px;
 }
 .centerThis {
-    text-align: center
+    text-align: center;
 }
 .sectionText {
     font-size: 22px;
+}
+.description {
+    margin-right: 100px;
+    margin-left: 100px;
+    font-size: 15px;
+    text-align:left;
 }
 td, th {
     font-size: 13px;
@@ -70,6 +76,23 @@ table {
     <div class="pageTitle">
         <br/>
         <a>Grouping app</a>
+    </div>
+
+    <div class="description">
+    <br/>This program analyzes different news sources' current polarity surrounding a certain topic. 
+    <br/>It allows you to scan seven different news sources' articles and headlines, including: CNN, New York Post, New York Times, Washington Post, Daily Wire, FOX news, and Huffington Post. 
+    <br/>After you choose up to 2 sources on the webpage, an algorithm will automatically look through each of the sources for the keyword. 
+    <br/>If you choose to look at headlines, the algorithm will look through the 500 most recent headlines that contain the keyword. 
+    <br/>If you choose to look at articles, the algorithm will look through the 50 most recent articles, and take into account sentences that contain the keyword. 
+    <br/>(Note: some sources take a long time to scan.) 
+    <br/>Then, it will show you the polarity distribution of the news source. 
+    <br/>A sentence's polarity refers to its sentiment: whether it is positive, negative, or neutral. 
+    <br/>For example, the sentence, "I love this project" is positive, while, "I hate this project" is negative, and "this is a project" is neutral. 
+    <br/>The webpage will also display a bar graph containing each source’s polarity information for easier comparison. 
+    <br/>Tools used:
+    <br/>   -Nltk (natural language toolkit): I used its vader lexicon method to determine the sentiment of each sentence.
+    <br/>   -Plotly: used to graph data.
+    <br/>   -Selenium + a chrome webdriver: used to make an automated crawler that parses webpages on a chrome browser.
     </div>
     </div>
     

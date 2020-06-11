@@ -32,6 +32,12 @@
     margin-left: 100px;
     padding: 30px;
 }
+.description {
+    margin-right: 100px;
+    margin-left: 100px;
+    font-size: 15px;
+    text-align:left;
+}
 td, th {
     width: 50%;
     border-style: none;
@@ -57,9 +63,25 @@ table {
         <strong>News Source Polarity Analyzer</strong>
     </div>
     <div class="link">
-        <strong><br/>Some of these may not work, as the news websites' html formats change and the scraper is not dynamic.</strong>
+        <strong><br/>Some of these may not work, as the news websites' html formats change and the scraper is not dynamic. (All of these worked at one point.)</strong>
         <a href="{{ url_for('mainPage') }}"><br/>Back to main page</a>
-    </div>    
+    </div>
+    <div class="description">
+    <br/>This program takes an excel sheet with a list of people, each with 3 other people who they don’t want to be with and 3 people they do want to be with, in order. 
+    <br/>It stops reading when it reads a row with both the first and last name columns blank.
+    <br/>The app then pairs the people based on their preferences. 
+    <br/>It outputs 3 graphs: the first displays the complete graph, the second displays a graph with only nodes that have connections, and the third displays a graph containing the calculated best pairings. 
+    <br/>A summary of the groupings will also appear on the left side of the page.
+    <br/>If you have a google sheets sheet, you can download it as an excel spreadsheet and use that.
+    <br/>Below is an example google sheet that can be downloaded as an excel file (.xlsx) and submitted to this program.
+    <br/><a href="https://docs.google.com/spreadsheets/d/1Dujmlvu83z9PmYvdZ8a6wE7c4XyDf05NecuxZT4WY_Y/edit?usp=sharing" target="_blank">Sample google sheet</a>
+    <br/>Tools used:
+    <br/>-Python
+    <br/>-Packages:
+    <br/>    -Openpyxl: read from excel sheet
+    <br/>    -Networkx: produces a graph
+    <br/>    -Matplotlib: visually represents the graph
+    <br/>    -Numpy: data analysis
     </div>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
