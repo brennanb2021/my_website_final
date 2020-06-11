@@ -31,7 +31,7 @@ def index():
     sessionID1 = request.cookies.get("user") #get the session token from the previous page cookies
     userID = SessionTokens.query.filter_by(sessionID=sessionID1).first()
     if userID != None: #valid session token -- user already logged in
-        return redirect(url_for('view', id=userID))
+        return redirect(url_for('view', id=userID.getUserId()))
 
     
     tokenN = str(uuid4())
@@ -145,7 +145,7 @@ def view():
     if not(checkUserLoggedIn(sessionID1)):
         return redirect(url_for('index'))
 
-    id = SessionTokens.query.filter_by(sessionID=sessionID1).first().getUserId() #if they go to the url without inputting an id, set it to the id of the user currently logged in
+    #id = SessionTokens.query.filter_by(sessionID=sessionID1).first().getUserId() #if they go to the url without inputting an id, set it to the id of the user currently logged in
     id = request.args.get("id")
     
     tokenN = str(uuid4())
