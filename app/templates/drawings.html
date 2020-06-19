@@ -1,0 +1,81 @@
+<html>
+<head>
+<style>
+.regText {
+    font-size: 15px;
+    font-family: verdana;
+}
+.titleText {
+    font-size: 40px;
+    font-family: verdana;
+}
+.pageTitle {
+    font-size: 30px;
+    font-family: verdana;
+}
+.link {
+    font-size: 20px;
+    font-family: verdana;
+}
+.all {
+    text-align: center;
+}
+.titleBox {
+    background-color: rgb(111, 196, 118);
+    margin-right: 100px;
+    margin-left: 100px;
+    padding: 30px;
+}
+.formBox {
+    background-color: lightblue;
+    margin-right: 100px;
+    margin-left: 100px;
+    padding: 30px;
+}
+.description {
+    margin-right: 100px;
+    margin-left: 100px;
+    font-size: 15px;
+    text-align:left;
+    font-family: verdana;
+}
+</style>
+
+</head>
+<body>
+    <div class="all">
+    <title>Brennan's website</title>
+    
+    <div class="titleBox">
+    <div class="titleText">
+        <strong>Brennan's Website</strong>
+    </div>
+    <div class="link">
+        <a href="{{ url_for('mainPage') }}"><br/>Back to main page</a>
+    </div>  
+    
+    <div class="pageTitle">
+    <br/>
+    <a>Drawing page</a>
+    </div>
+    <div class="description">
+    <br/>A couple drawings I made in photoshop. None were traced.
+    <p> </p>
+    </div>
+    </div>
+
+    <div class="formBox">
+        <img src="{{url_for('static', filename='drawings/AsiansForBlackLives.jpg')}}" alt="Asians for Black Lives" width="450" height="630">
+        <br/><br/><br/>
+        <img src="{{url_for('static', filename='drawings/bunnyEdit.jpg')}}" alt="Hitman" width="450" height="630">
+        <br/><br/><br/>
+        <img src="{{url_for('static', filename='drawings/mangaStyle.jpg')}}" alt="Manga style girl" width="450" height="630">
+        <br/><br/><br/>
+        <img src="{{url_for('static', filename='drawings/me.jpg')}}" alt="Hitman" width="500" height="437">
+        <br/>
+    </div>
+
+    </div>
+
+</body>
+</html>

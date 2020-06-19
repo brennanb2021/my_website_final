@@ -500,6 +500,29 @@ def runBulletHellGame():
         return redirect(url_for('index'))
     return render_template('bulletHellGame.html')
 
+
+'''
+I am Iron Man
+'''
+@app.route('/IAMIRONMAN', methods=['GET'])
+def handTrackerVideo():
+    sessionID = request.cookies.get("user") #get the session token from the previous page cookies
+    if not(checkUserLoggedIn(sessionID)):
+        return redirect(url_for('index'))
+    return render_template('iAmIronMan.html')
+
+
+'''
+Art page
+'''
+@app.route('/drawings', methods=['GET'])
+def artPage():
+    sessionID = request.cookies.get("user") #get the session token from the previous page cookies
+    if not(checkUserLoggedIn(sessionID)):
+        return redirect(url_for('index'))
+    return render_template('drawings.html')
+
+
 def checkUserLoggedIn(sessionID1):
     
     #Checks if the user is actually logged in -- commented out for easier testing
