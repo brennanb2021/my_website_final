@@ -16,7 +16,7 @@ for all getArticles (except for CNN):
 2. for each headline get the link to the article and open in new tab
 3. parse all sentences in the article
 4. close tab, back to main window
-5. stop at 50 articles
+5. stop at 30 articles
 """
 
 def getArticlesCNN(keywordArr, driver):
@@ -24,7 +24,7 @@ def getArticlesCNN(keywordArr, driver):
     breakBadLoad = False
     totalHeadlinesSeen = 0
     pageNum = 1
-    while len(pageContentArr) < 50: #read 50 articles total
+    while len(pageContentArr) < 30: #read 30 articles total
         URLPage = buildURLCNN(keywordArr, pageNum)
         try:
             driver.get(URLPage)
@@ -64,7 +64,7 @@ def getArticlesCNN(keywordArr, driver):
             for article in articleBody:
                 pageContentArr.append(article.text)
                 totalHeadlinesSeen+=1
-                if len(pageContentArr) == 50:
+                if len(pageContentArr) == 30:
                     break
         pageNum+=1
         breakBadLoad = False
@@ -80,7 +80,7 @@ def getArticlesNYT(keywordArr, driver):
     totalHeadlinesSeen = 0 #count of all headlines
     breakB = False
     past3LoopsHeadlineNumber = []
-    while len(rtnArticleList) < 50: #read 50 articles total
+    while len(rtnArticleList) < 30: #read 30 articles total
         
         time.sleep(1)
         
@@ -186,7 +186,7 @@ def getArticlesNYT(keywordArr, driver):
                     break
 
             totalHeadlinesSeen+=1
-            if len(rtnArticleList) == 50:
+            if len(rtnArticleList) == 30:
                 breakB = True
                 break
         if breakB:
@@ -220,7 +220,7 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
     startStopCounter = False
     stopAfter3 = 0
     breakB = False
-    while len(rtnArticleList) < 50: #read 50 articles total
+    while len(rtnArticleList) < 30: #read 30 articles total
 
         links = driver.find_elements_by_tag_name("a")
         links = links[7:len(links)-17]
@@ -319,7 +319,7 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
                     break
             
             totalHeadlinesSeen+=1
-            if len(rtnArticleList) == 50:
+            if len(rtnArticleList) == 30:
                 breakB = True
                 break
         if breakB:
@@ -355,7 +355,7 @@ def getArticlesFOX(keywordArr, driver):
     totalHeadlinesSeen = 0 #count of all headlines
     breakB = False
     past3LoopsHeadlineNumber = []
-    while len(rtnArticleList) < 50: #read 50 articles total
+    while len(rtnArticleList) < 30: #read 30 articles total
 
         time.sleep(1)
         
@@ -469,7 +469,7 @@ def getArticlesFOX(keywordArr, driver):
                         break
 
             totalHeadlinesSeen+=1
-            if len(rtnArticleList) == 50:
+            if len(rtnArticleList) == 30:
                 breakB = True
                 break
         if breakB:
@@ -503,7 +503,7 @@ def getArticlesHP(keywordArr, driver):
     breakBadLoad = False
     breakB = False
     totalHeadlinesSeen = 0
-    while len(rtnArticleList) < 50: #read 50 articles total
+    while len(rtnArticleList) < 30: #read 30 articles total
         if pageNum == 101:
             break
         
@@ -605,7 +605,7 @@ def getArticlesHP(keywordArr, driver):
                 driver1.close() #close this window
                 driver1.switch_to_window(main_window) #back to the main window
 
-                if len(rtnArticleList) == 50:
+                if len(rtnArticleList) == 30:
                     breakB = True
                     break
             if breakB:
@@ -636,7 +636,7 @@ def getArticlesNYP(keywordArr, driver):
     breakBadLoad = False
     breakB = False
     totalHeadlinesSeen = 0
-    while len(rtnArticleList) < 50: #read 50 articles total
+    while len(rtnArticleList) < 30: #read 30 articles total
         
         URLPage = buildURLNYP(keywordArr, pageNum)
         try:
@@ -774,7 +774,7 @@ def getArticlesNYP(keywordArr, driver):
                         print(e)
                         break
 
-                if len(rtnArticleList) == 50:
+                if len(rtnArticleList) == 30:
                     breakB = True
                     break
             if breakB:
