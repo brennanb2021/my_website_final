@@ -28,8 +28,8 @@
 }
 .formBox {
     background-color: lightblue;
-    margin-right: 100px;
-    margin-left: 100px;
+    margin-right: 50px;
+    margin-left: 50px;
     padding: 30px;
 }
 .description {
@@ -56,35 +56,17 @@ table {
 
 <body>
     <div class="all">
-    <title>News Source Polarity Analyzer</title>
-
+    <title>News Source - Sentences</title>
     <div class="titleBox">
     <div class="titleText">
-        <strong>News Source Polarity Analyzer</strong>
+        <strong>News Source - Sentences</strong>
     </div>
     <div class="link">
         <strong><br/>Some of these may not work, as the news websites' html formats change and the scraper is not dynamic. (All of these worked at one point.)</strong>
         <a href="{{ url_for('mainPage') }}"><br/>Back to main page</a>
     </div>
     <div class="description">
-    <br/>A demonstration of an earlier model where everything worked: (runs at x40 speed)<br/>
-    <iframe width="700" height="500"
-        src="https://www.youtube.com/embed/NNbXTc4K87U">
-    </iframe>
-    <br/>This program analyzes different news sources' current polarity surrounding a certain topic. 
-    <br/>It allows you to scan seven different news sources' articles and headlines, including: CNN, New York Post, New York Times, Washington Post, Daily Wire, FOX news, and Huffington Post. 
-    <br/>After you choose up to 2 sources on the webpage, an algorithm will automatically look through each of the sources for the keyword. 
-    <br/>If you choose to look at headlines, the algorithm will look through the 500 most recent headlines that contain the keyword. 
-    <br/>If you choose to look at articles, the algorithm will look through the 50 most recent articles, and take into account sentences that contain the keyword. 
-    <br/>(Note: some sources take a long time to scan.) 
-    <br/>Then, it will show you the polarity distribution of the news source. 
-    <br/>A sentence's polarity refers to its sentiment: whether it is positive, negative, or neutral. 
-    <br/>For example, the sentence, "I love this project" is positive, while, "I hate this project" is negative, and "this is a project" is neutral. 
-    <br/>The webpage will also display a bar graph containing each source’s polarity information for easier comparison. 
-    <br/>Tools used:
-    <br/>   -Nltk (natural language toolkit): I used its vader lexicon method to determine the sentiment of each sentence.
-    <br/>   -Plotly: used to graph data.
-    <br/>   -Selenium + a chrome webdriver: used to make an automated crawler that parses webpages on a chrome browser.
+    <br/>Does the same thing as the news scraper, but prints the positive and negative sentences.
     </div>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -101,39 +83,25 @@ table {
 
     <div class="formBox">
 
-        <form action="/newsScraper" method="POST">
+        <form action="/newsScraperDebater" method="POST">
             <strong>Choose sources to compare<br/></strong>
             <input list="sources1" name="sources1">
             <datalist id="sources1">
-                <option value="CNN headlines (500)">
                 <option value="CNN articles (50)">
-                <option value="New York Post headlines (500)">
                 <option value="New York Post articles (50)">
-                <option value="New York Times headlines (500-limited)">
                 <option value="New York Times articles (50)">
-                <option value="Washington Post headlines (500)">
-                <option value="Daily Wire headlines (500-limited)">
                 <option value="Daily Wire articles (50)">
-                <option value="FOX headlines (500-limited)">
                 <option value="FOX articles (50)">
-                <option value="Huffington Post headlines (500-limited)">
                 <option value="Huffington Post articles (50)">
             </datalist>
 
             <input list="sources2" name="sources2">
             <datalist id="sources2">
-                <option value="CNN headlines (500)">
                 <option value="CNN articles (50)">
-                <option value="New York Post headlines (500)">
                 <option value="New York Post articles (50)">
-                <option value="New York Times headlines (500-limited)">
                 <option value="New York Times articles (50)">
-                <option value="Washington Post headlines (500)">
-                <option value="Daily Wire headlines (500-limited)">
                 <option value="Daily Wire articles (50)">
-                <option value="FOX headlines (500-limited)">
                 <option value="FOX articles (50)">
-                <option value="Huffington Post headlines (500-limited)">
                 <option value="Huffington Post articles (50)">
             </datalist>
 
@@ -177,7 +145,6 @@ table {
             <tr>
                 {% if typed1 != None %}
                 <td>
-                {% if typed1 == "articles" %}
                 Number of articles: {{ source1Dict["numArticles"] }} <br/>
                 Number of sentences: {{ source1Dict["numSentences"] }}<br/>
                 % Negative sentences: {{ source1Dict["Negative sentences"] }}%<br/>
@@ -186,13 +153,6 @@ table {
                 % Negative articles: {{ source1Dict["Negative articles"] }}%<br/>
                 % Neutral articles: {{ source1Dict["Neutral articles"] }}%<br/>
                 % Positive articles: {{ source1Dict["Positive articles"] }}%<br/><br/>
-                
-                {% else %}
-                Number of headlines: {{ source1Dict["numHeadlines"] }}<br/>
-                % Negative: {{ source1Dict["Negative headlines"] }}%<br/>
-                % Neutral: {{ source1Dict["Neutral headlines"] }}%<br/>
-                % Positive: {{ source1Dict["Positive headlines"] }}%<br/><br/>
-                {% endif %}
                 </td>
                 {% else %}
                 <td> </td>
@@ -200,7 +160,6 @@ table {
 
                 {% if typed2 != None %}
                 <td>
-                {% if typed2 == "articles" %}
                 Number of articles: {{ source2Dict["numArticles"] }} <br/>
                 Number of sentences: {{ source2Dict["numSentences"] }}<br/>
                 % Negative sentences: {{ source2Dict["Negative sentences"] }}%<br/>
@@ -209,25 +168,30 @@ table {
                 % Negative articles: {{ source2Dict["Negative articles"] }}%<br/>
                 % Neutral articles: {{ source2Dict["Neutral articles"] }}%<br/>
                 % Positive articles: {{ source2Dict["Positive articles"] }}%<br/><br/>
-                
-                {% else %}
-                Number of headlines: {{ source2Dict["numHeadlines"] }}<br/>
-                % Negative: {{ source2Dict["Negative headlines"] }}%<br/>
-                % Neutral: {{ source2Dict["Neutral headlines"] }}%<br/>
-                % Positive: {{ source2Dict["Positive headlines"] }}%<br/><br/>
-                {% endif %}
                 </td>
                 {% endif %}
             </tr>
+            <tr>
+                <td>
+                Number of positive sentences: {{ lenPos }} <br/><br/>
+                {% for posS in allPos %}
+                    {{ posS }}<br/><br/>
+                {% endfor %}
+                </td>
 
+                <td>
+                Number of negative sentences: {{ lenNeg }} <br/><br/>
+                {% for negS in allNeg %}
+                    {{ negS }}<br/><br/>
+                {% endfor %}
+                </td>
+            </tr>
+            </div>
             
         </table>
-
-        -Add graph here-
-
-        {% endif %}
+    
     </div>
-
+    {% endif %}
     </div>
 </body>
 </html>
