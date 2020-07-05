@@ -9,7 +9,7 @@ def mainActionDebate(keywords, sources):
     keywordArr = keywords.split(", ")
     options = Options()
     options.add_argument("--incognito")
-    options.add_argument("--headless")
+    #options.add_argument("--headless")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--no-sandbox")
     options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
