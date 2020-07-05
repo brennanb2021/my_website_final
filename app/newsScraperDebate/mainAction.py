@@ -10,6 +10,7 @@ def mainActionDebate(keywords, sources):
     options = Options()
     options.add_argument("--incognito")
     options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+    print(os.environ.get('GOOGLE_CHROME_BIN'))
     driver = webdriver.Chrome(str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
     driver.set_page_load_timeout(5)
 
