@@ -2,6 +2,8 @@ from app.newsScraperDebate.sentimentAnalysis import readArticles
 from app.newsScraperDebate.scraper import getArticlesCNN, getArticlesNYT, getArticlesDW, getArticlesFOX, getArticlesHP, getArticlesNYP
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 
 def mainActionDebate(keywords, sources):
     keywords = keywords.lower()
@@ -9,7 +11,8 @@ def mainActionDebate(keywords, sources):
     options = Options()
     
     options.add_argument("--incognito")
-    driver = webdriver.Chrome('.\drivers\chromedriver.exe', options=options)
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    #driver = webdriver.Chrome('.\drivers\chromedriver.exe', options=options)
     driver.set_page_load_timeout(5)
 
     rtn = [] #array of data
