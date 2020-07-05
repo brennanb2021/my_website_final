@@ -9,7 +9,7 @@ def mainActionDebate(keywords, sources):
     options = Options()
     
     options.add_argument("--incognito")
-    driver = webdriver.Chrome('.\drivers\chromedriver.exe', options=options)
+    driver = webdriver.Chrome(str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
     driver.set_page_load_timeout(5)
 
     rtn = [] #array of data
