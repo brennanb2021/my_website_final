@@ -2,6 +2,7 @@ from app.newsScraperDebate.sentimentAnalysis import readArticles
 from app.newsScraperDebate.scraper import getArticlesCNN, getArticlesNYT, getArticlesDW, getArticlesFOX, getArticlesHP, getArticlesNYP
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+import os
 
 def mainActionDebate(keywords, sources):
     keywords = keywords.lower()
