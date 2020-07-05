@@ -1,5 +1,4 @@
-import nltk
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 def readArticles(articles, keywords):
     sia = SentimentIntensityAnalyzer()

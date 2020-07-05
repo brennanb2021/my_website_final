@@ -38,8 +38,11 @@ def getArticlesCNN(keywordArr, driver):
                 driver.quit()
                 options = Options()
                 options.add_argument("--incognito")
-                
-                driver = webdriver.Chrome('.\drivers\chromedriver.exe', options=options)
+                options.add_argument("--headless")
+                options.add_argument("--disable-dev-shm-usage")
+                options.add_argument("--no-sandbox")
+                options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+                driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                 driver.set_page_load_timeout(8)
                 time.sleep(1)
                 try:
@@ -106,8 +109,11 @@ def getArticlesNYT(keywordArr, driver):
                     driver.quit()
                     options = Options()
                     options.add_argument("--incognito")
-                    
-                    driver = webdriver.Chrome('.\drivers\chromedriver.exe', options=options)
+                    options.add_argument("--headless")
+                    options.add_argument("--disable-dev-shm-usage")
+                    options.add_argument("--no-sandbox")
+                    options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+                    driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                     driver.set_page_load_timeout(8)
                     time.sleep(1)
                     try:
@@ -127,8 +133,11 @@ def getArticlesNYT(keywordArr, driver):
                         driver.quit()
                         options = Options()
                         options.add_argument("--incognito")
-                        
-                        driver = webdriver.Chrome('.\drivers\chromedriver.exe', options=options)
+                        options.add_argument("--headless")
+                        options.add_argument("--disable-dev-shm-usage")
+                        options.add_argument("--no-sandbox")
+                        options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+                        driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                         driver.set_page_load_timeout(8)
                         time.sleep(1)
                         try:
@@ -163,8 +172,11 @@ def getArticlesNYT(keywordArr, driver):
                 driver.quit()
                 options = Options()
                 options.add_argument("--incognito")
-                
-                driver = webdriver.Chrome('.\drivers\chromedriver.exe', options=options)
+                options.add_argument("--headless")
+                options.add_argument("--disable-dev-shm-usage")
+                options.add_argument("--no-sandbox")
+                options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+                driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                 driver.set_page_load_timeout(8)
                 time.sleep(1)
                 try:
@@ -227,8 +239,11 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
                 driver.quit()
                 options = Options()
                 options.add_argument("--incognito")
-                
-                driver = webdriver.Chrome('.\drivers\chromedriver.exe', options=options)
+                options.add_argument("--headless")
+                options.add_argument("--disable-dev-shm-usage")
+                options.add_argument("--no-sandbox")
+                options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+                driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                 driver.set_page_load_timeout(8)
                 time.sleep(1)
                 try:
@@ -249,8 +264,11 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
                     driver.quit()
                     options = Options()
                     options.add_argument("--incognito")
-                    
-                    driver = webdriver.Chrome('.\drivers\chromedriver.exe', options=options)
+                    options.add_argument("--headless")
+                    options.add_argument("--disable-dev-shm-usage")
+                    options.add_argument("--no-sandbox")
+                    options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+                    driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                     driver.set_page_load_timeout(8)
                     time.sleep(1)
                     try:
@@ -287,8 +305,11 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
                 driver.quit()
                 options = Options()
                 options.add_argument("--incognito")
-                
-                driver = webdriver.Chrome('.\drivers\chromedriver.exe', options=options)
+                options.add_argument("--headless")
+                options.add_argument("--disable-dev-shm-usage")
+                options.add_argument("--no-sandbox")
+                options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+                driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                 driver.set_page_load_timeout(8)
                 time.sleep(1)
                 try:
@@ -365,8 +386,11 @@ def getArticlesFOX(keywordArr, driver):
                     driver.quit()
                     options = Options()
                     options.add_argument("--incognito")
-                    
-                    driver = webdriver.Chrome('.\drivers\chromedriver.exe', options=options)
+                    options.add_argument("--headless")
+                    options.add_argument("--disable-dev-shm-usage")
+                    options.add_argument("--no-sandbox")
+                    options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+                    driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                     driver.set_page_load_timeout(8)
                     time.sleep(1)
                     try:
@@ -387,8 +411,11 @@ def getArticlesFOX(keywordArr, driver):
                         driver.quit()
                         options = Options()
                         options.add_argument("--incognito")
-                        
-                        driver = webdriver.Chrome('.\drivers\chromedriver.exe', options=options)
+                        options.add_argument("--headless")
+                        options.add_argument("--disable-dev-shm-usage")
+                        options.add_argument("--no-sandbox")
+                        options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+                        driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                         driver.set_page_load_timeout(8)
                         time.sleep(1)
                         try:
@@ -428,8 +455,11 @@ def getArticlesFOX(keywordArr, driver):
                     driver.quit()
                     options = Options()
                     options.add_argument("--incognito")
-                    
-                    driver = webdriver.Chrome('.\drivers\chromedriver.exe', options=options)
+                    options.add_argument("--headless")
+                    options.add_argument("--disable-dev-shm-usage")
+                    options.add_argument("--no-sandbox")
+                    options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+                    driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                     driver.set_page_load_timeout(8)
                     time.sleep(1)
                     try:
@@ -458,14 +488,16 @@ def getArticlesFOX(keywordArr, driver):
 def getArticlesHP(keywordArr, driver):
     rtnArticleList = []
     driver.close()
-    options = Options()
-    #
-    options.add_argument("--incognito")
-    
     ua = UserAgent()
     userAgent = ua.random
+    options = Options()
     options.add_argument(f'user-agent={userAgent}')
-    driver1 = webdriver.Chrome('C:\D_Drive\ProgramDownloads\Chrome driver\chromedriver.exe', options=options)
+    options.add_argument("--incognito")
+    options.add_argument("--headless")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--no-sandbox")
+    options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+    driver1 = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
     
     pageNum = 1
     breakBadLoad = False
@@ -486,9 +518,13 @@ def getArticlesHP(keywordArr, driver):
                 driver1.close()
                 driver1.quit()
                 options = Options()
+                options.add_argument(f'user-agent={userAgent}')
                 options.add_argument("--incognito")
-                
-                driver1 = webdriver.Chrome('C:\D_Drive\ProgramDownloads\Chrome driver\chromedriver.exe', options=options)
+                options.add_argument("--headless")
+                options.add_argument("--disable-dev-shm-usage")
+                options.add_argument("--no-sandbox")
+                options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+                driver1 = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                 driver1.set_page_load_timeout(8)
                 time.sleep(1)
                 try:
@@ -530,9 +566,13 @@ def getArticlesHP(keywordArr, driver):
                         driver1.close()
                         driver1.quit()
                         options = Options()
+                        options.add_argument(f'user-agent={userAgent}')
                         options.add_argument("--incognito")
-                        
-                        driver1 = webdriver.Chrome('C:\D_Drive\ProgramDownloads\Chrome driver\chromedriver.exe', options=options)
+                        options.add_argument("--headless")
+                        options.add_argument("--disable-dev-shm-usage")
+                        options.add_argument("--no-sandbox")
+                        options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+                        driver1 = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                         driver1.set_page_load_timeout(8)
                         time.sleep(1)
                         try:
@@ -575,10 +615,13 @@ def getArticlesHP(keywordArr, driver):
             options = Options()
             ua = UserAgent()
             userAgent = ua.random
-            options.add_argument("--incognito")
-            
             options.add_argument(f'user-agent={userAgent}')
-            driver1 = webdriver.Chrome('C:\D_Drive\ProgramDownloads\Chrome driver\chromedriver.exe', options=options)
+            options.add_argument("--incognito")
+            options.add_argument("--headless")
+            options.add_argument("--disable-dev-shm-usage")
+            options.add_argument("--no-sandbox")
+            options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+            driver1 = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
             pageNum-=1
 
         pageNum+=1
@@ -608,8 +651,11 @@ def getArticlesNYP(keywordArr, driver):
                 driver.quit()
                 options = Options()
                 options.add_argument("--incognito")
-                
-                driver = webdriver.Chrome('.\drivers\chromedriver.exe', options=options)
+                options.add_argument("--headless")
+                options.add_argument("--disable-dev-shm-usage")
+                options.add_argument("--no-sandbox")
+                options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+                driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                 driver.set_page_load_timeout(8)
                 time.sleep(1)
                 try:
@@ -649,8 +695,11 @@ def getArticlesNYP(keywordArr, driver):
                     driver.quit()
                     options = Options()
                     options.add_argument("--incognito")
-                    
-                    driver = webdriver.Chrome('.\drivers\chromedriver.exe', options=options)
+                    options.add_argument("--headless")
+                    options.add_argument("--disable-dev-shm-usage")
+                    options.add_argument("--no-sandbox")
+                    options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+                    driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                     driver.set_page_load_timeout(8)
                     time.sleep(1)
                     try:
@@ -670,8 +719,11 @@ def getArticlesNYP(keywordArr, driver):
                         driver.quit()
                         options = Options()
                         options.add_argument("--incognito")
-                        
-                        driver = webdriver.Chrome('.\drivers\chromedriver.exe', options=options)
+                        options.add_argument("--headless")
+                        options.add_argument("--disable-dev-shm-usage")
+                        options.add_argument("--no-sandbox")
+                        options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+                        driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                         driver.set_page_load_timeout(8)
                         time.sleep(1)
                         try:
@@ -709,8 +761,11 @@ def getArticlesNYP(keywordArr, driver):
                     driver.quit()
                     options = Options()
                     options.add_argument("--incognito")
-                    
-                    driver = webdriver.Chrome('.\drivers\chromedriver.exe', options=options)
+                    options.add_argument("--headless")
+                    options.add_argument("--disable-dev-shm-usage")
+                    options.add_argument("--no-sandbox")
+                    options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+                    driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                     driver.set_page_load_timeout(8)
                     time.sleep(1)
                     try:
@@ -730,9 +785,13 @@ def getArticlesNYP(keywordArr, driver):
             ua = UserAgent()
             userAgent = ua.random
             
-            options.add_argument("--incognito")
             options.add_argument(f'user-agent={userAgent}')
-            driver = webdriver.Chrome('.\drivers\chromedriver.exe', options=options)
+            options.add_argument("--incognito")
+            options.add_argument("--headless")
+            options.add_argument("--disable-dev-shm-usage")
+            options.add_argument("--no-sandbox")
+            options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+            driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
             pageNum-=1
 
         pageNum+=1
