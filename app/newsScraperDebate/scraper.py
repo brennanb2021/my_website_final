@@ -319,8 +319,8 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
                 except (TimeoutException, InvalidSessionIdException) as e:
                     print(e)
                     break
-                
-            socketio.emit('message', {'goodbye': "Goodbye"})
+
+            socketio.emit('message', len(rtnArticleList))
             totalHeadlinesSeen+=1
             if len(rtnArticleList) == 30:
                 breakB = True
