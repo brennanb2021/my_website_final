@@ -243,8 +243,8 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
                 options.add_argument("--no-sandbox")
                 options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
                 driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
-                driver.set_page_load_timeout(8)
-                time.sleep(0.5)
+                driver.set_page_load_timeout(2)
+                #time.sleep(0.5)
                 try:
                     driver.switch_to_window(driver.window_handles[1])
                 except (TimeoutException, InvalidSessionIdException) as e:
@@ -256,7 +256,7 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
             except (TimeoutException, InvalidSessionIdException):
                 try:
                     driver.refresh()
-                    time.sleep(0.5)
+                    #time.sleep(0.5)
                 except (TimeoutException, InvalidSessionIdException): #try again
                     print("Making new driver")
                     driver.close()
@@ -268,8 +268,8 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
                     options.add_argument("--no-sandbox")
                     options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
                     driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
-                    driver.set_page_load_timeout(8)
-                    time.sleep(0.5)
+                    driver.set_page_load_timeout(2)
+                    #time.sleep(0.5)
                     try:
                         driver.get(link)
                     except (TimeoutException, InvalidSessionIdException) as e:
@@ -277,7 +277,7 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
                         break
             for j in range(2): #try 2 times
                 try:
-                    WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.CLASS_NAME, "css-1yvgfcr")))
+                    WebDriverWait(driver, 2).until(EC.presence_of_element_located((By.CLASS_NAME, "css-1yvgfcr")))
                     #wait until page is loaded (looking for date class -- on every article)
                     for i in range(3):
                         try:
@@ -309,8 +309,8 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
                 options.add_argument("--no-sandbox")
                 options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
                 driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
-                driver.set_page_load_timeout(8)
-                time.sleep(0.5)
+                driver.set_page_load_timeout(2)
+                #time.sleep(0.5)
                 try:
                     driver.switch_to_window(main_window)
                 except (TimeoutException, InvalidSessionIdException) as e:
