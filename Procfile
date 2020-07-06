@@ -1,1 +1,1 @@
-web: gunicorn basicServer:app --log-file=- --timeout 1000
+web: gunicorn --worker-class socketio.sgunicorn.GeventSocketIOWorker --log-file=- server:app
