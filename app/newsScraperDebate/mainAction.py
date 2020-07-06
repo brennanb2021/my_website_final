@@ -4,62 +4,60 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import os
 
-def mainActionDebate(keywords, source):
+def mainActionDebate(keywords, sources):
     keywords = keywords.lower()
     keywordArr = keywords.split(", ")
     options = Options()
     options.add_argument("--incognito")
-    options.add_argument("--headless")
-    options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--no-sandbox")
-    options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
-    driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
-    driver.set_page_load_timeout(8)
+    driver = webdriver.Chrome(executable_path=".\drivers\chromedriver.exe", options=options)
+    driver.set_page_load_timeout(5)
 
     rtn = [] #array of data
     
     #analyze all news sources chosen
-    if ("New York Post articles (30)") == source:
-        val = readArticles(getArticlesNYP(keywordArr, driver), keywordArr)
-        if val != False:
-            rtn.append(val)
-        else:
-            return [False, "No New York Post articles found"]
+    for i in sources:
+        if ("New York Post articles (50)") == i:
+            val = readArticles(getArticlesNYP(keywordArr, driver), keywordArr)
+            if val != False:
+                rtn.append(val)
+            else:
+                return [False, "No New York Post articles found"]
 
-    if ("CNN articles (30)") == source:
-        val = readArticles(getArticlesCNN(keywordArr, driver), keywordArr)
-        if val != False:
-            rtn.append(val)
-        else:
-            return [False, "No CNN articles found"]
+        if ("CNN articles (50)") == i:
+            val = readArticles(getArticlesCNN(keywordArr, driver), keywordArr)
+            if val != False:
+                rtn.append(val)
+            else:
+                return [False, "No CNN articles found"]
 
-    if ("New York Times articles (30)") == source:
-        val = readArticles(getArticlesNYT(keywordArr, driver), keywordArr) #NEEDS AN ACCOUNT
-        if val != False:
-            rtn.append(val)
-        else:
-            return [False, "No New York Times articles found"]
+        if ("New York Times articles (50)") == i:
+            val = readArticles(getArticlesNYT(keywordArr, driver), keywordArr) #NEEDS AN ACCOUNT
+            if val != False:
+                rtn.append(val)
+            else:
+                return [False, "No New York Times articles found"]
 
-    if ("Daily Wire articles (30)") == source:
-        val = readArticles(getArticlesDW(keywordArr, driver), keywordArr)
-        if val != False:
-            rtn.append(val)
-        else:
-            return [False, "No Daily Wire articles found"]
+        if ("Daily Wire articles (50)") == i:
+            val = readArticles(getArticlesDW(keywordArr, driver), keywordArr)
+            if val != False:
+                rtn.append(val)
+            else:
+                return [False, "No Daily Wire articles found"]
 
-    if ("FOX articles (30)") == source:
-        val = readArticles(getArticlesFOX(keywordArr, driver), keywordArr)
-        if val != False:
-            rtn.append(val)
-        else:
-            return [False, "No FOX articles found"]
+        if ("FOX articles (50)") == i:
+            val = readArticles(getArticlesFOX(keywordArr, driver), keywordArr)
+            if val != False:
+                rtn.append(val)
+            else:
+                return [False, "No FOX articles found"]
 
-    if ("Huffington Post articles (30)") == source:
-        val = readArticles(getArticlesHP(keywordArr, driver), keywordArr)
-        if val != False:
-            rtn.append(val)
-        else:
-            return [False, "No Huffington Post articles found"]
+        if ("Huffington Post articles (50)") == i:
+            val = readArticles(getArticlesHP(keywordArr, driver), keywordArr)
+            if val != False:
+                rtn.append(val)
+            else:
+                return [False, "No Huffington Post articles found"]
 
     driver.quit()
     return rtn

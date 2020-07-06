@@ -67,7 +67,6 @@ table {
     </div>
     <div class="description">
     <br/>Does the same thing as the news scraper, but prints the positive and negative sentences.
-    <br/>This can be used to produce arguments surrounding a subject.
     </div>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -85,15 +84,25 @@ table {
     <div class="formBox">
 
         <form action="/newsScraperDebater" method="POST">
-            <strong>Choose source to search<br/></strong>
+            <strong>Choose sources to compare<br/></strong>
             <input list="sources1" name="sources1">
             <datalist id="sources1">
-                <option value="CNN articles (30)">
-                <option value="New York Post articles (30)">
-                <option value="New York Times articles (30)">
-                <option value="Daily Wire articles (30)">
-                <option value="FOX articles (30)">
-                <option value="Huffington Post articles (30)">
+                <option value="CNN articles (50)">
+                <option value="New York Post articles (50)">
+                <option value="New York Times articles (50)">
+                <option value="Daily Wire articles (50)">
+                <option value="FOX articles (50)">
+                <option value="Huffington Post articles (50)">
+            </datalist>
+
+            <input list="sources2" name="sources2">
+            <datalist id="sources2">
+                <option value="CNN articles (50)">
+                <option value="New York Post articles (50)">
+                <option value="New York Times articles (50)">
+                <option value="Daily Wire articles (50)">
+                <option value="FOX articles (50)">
+                <option value="Huffington Post articles (50)">
             </datalist>
 
             <br/><br/>
@@ -122,6 +131,16 @@ table {
         {% endif %}
 
         <table>
+            <tr>
+                {% if source1 == None %}
+                    <th> </th>
+                {% else %}
+                    <th>{{ source1 }}</th>
+                {% endif %}
+                {% if source2 != None %}
+                    <th>{{ source2 }}</th>
+                {% endif %}
+            </tr>
             
             <tr>
                 {% if typed1 != None %}
@@ -139,6 +158,18 @@ table {
                 <td> </td>
                 {% endif %}
 
+                {% if typed2 != None %}
+                <td>
+                Number of articles: {{ source2Dict["numArticles"] }} <br/>
+                Number of sentences: {{ source2Dict["numSentences"] }}<br/>
+                % Negative sentences: {{ source2Dict["Negative sentences"] }}%<br/>
+                % Neutral sentences: {{ source2Dict["Neutral sentences"] }}%<br/>
+                % Positive sentences: {{ source2Dict["Positive sentences"] }}%<br/>
+                % Negative articles: {{ source2Dict["Negative articles"] }}%<br/>
+                % Neutral articles: {{ source2Dict["Neutral articles"] }}%<br/>
+                % Positive articles: {{ source2Dict["Positive articles"] }}%<br/><br/>
+                </td>
+                {% endif %}
             </tr>
             <tr>
                 <td>

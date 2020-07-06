@@ -541,14 +541,20 @@ def newsScraperDebatePost():
     form1 = request.form
     
     typed1 = None
+    typed2 = None
     source1 = None
+    source2 = None
     keywords = form1.get('keywords')
-    source = None
+    sources = []
     if form1.get('sources1') != "":
-        source.append(form1.get('sources1')) #get the sources from the html form
+        sources.append(form1.get('sources1')) #get the sources from the html form
         source1 = form1.get('sources1')
 
-    if source == None:
+    if form1.get('sources2') != "":
+        sources.append(form1.get('sources2'))
+        source2 = form1.get('sources2')
+
+    if len(sources) == 0:
         flash("No sources chosen")
         return redirect('/') #begone
     
@@ -556,7 +562,7 @@ def newsScraperDebatePost():
         flash("No keywords entered")
         return redirect('/') #begone
     
-    dictData = mainActionDebate(keywords, source)
+    dictData = mainActionDebate(keywords, sources)
     if dictData[0] == False:
         flash(dictData[1], "divideBy0")
         redirect(url_for('newsScraperDebateGet'))
@@ -564,8 +570,21 @@ def newsScraperDebatePost():
     source1Dict = None
     source2Dict = None
 
-    typed1 = dictData[0]["type"] #articles or headlines
-    source1Dict = dictData[0] #source 1 is something
+    if source1 != None:
+        typed1 = dictData[0]["type"] #articles or headlines
+        source1Dict = dictData[0] #source 1 is something
+    
+    if source2 != None:
+        if source1 == None: #user entered only the second source
+            typed2 = dictData[0]["type"] #articles or headlines
+            source2Dict = dictData[0] #source 2 is something and no source 1
+        else:
+            if source1 == source2: # the user put the same source for both
+                typed2 = typed1
+                source2Dict = source1Dict
+            else:
+                typed2 = dictData[1]["type"] #source 1 and source 2 are different, set them to dictData[0] and [1]
+                source2Dict = dictData[1]
     
     keywordStr = ""
     keywords = keywords.split(", ")
@@ -583,6 +602,12 @@ def newsScraperDebatePost():
     for sentence in source1Dict["negSentences"]:
         appendS = sentence + ". (" + source1.replace(" articles (50)", "") + ")"
         allNeg.append(appendS)
+    for sentence in source2Dict["posSentences"]:
+        appendS = sentence + ". (" + source2.replace(" articles (50)", "") + ")"
+        allPos.append(appendS)
+    for sentence in source2Dict["negSentences"]:
+        appendS = sentence + ". (" + source2.replace(" articles (50)", "") + ")"
+        allNeg.append(appendS)
     
     rd.shuffle(allPos)
     rd.shuffle(allNeg)
@@ -590,8 +615,8 @@ def newsScraperDebatePost():
     lenPos = len(allPos)
     lenNeg = len(allNeg)
 
-    return render_template('newsSourceDebaterPage.html', source1=source1, keywords=keywordStr, keywordArr=keywords,
-            finishedReading=True, source1Dict=source1Dict, typed1=typed1,  
+    return render_template('newsSourceDebaterPage.html', source1=source1, source2=source2, keywords=keywordStr, keywordArr=keywords,
+            finishedReading=True, source1Dict=source1Dict, source2Dict=source2Dict, typed1=typed1, typed2=typed2, 
             allNeg=allNeg, allPos=allPos, lenPos=lenPos, lenNeg=lenNeg)
 
 
