@@ -545,7 +545,7 @@ def newsScraperDebatePost():
     keywords = form1.get('keywords')
     source = None
     if form1.get('sources1') != "":
-        sources.append(form1.get('sources1')) #get the sources from the html form
+        source.append(form1.get('sources1')) #get the sources from the html form
         source1 = form1.get('sources1')
 
     if source == None:
@@ -564,9 +564,8 @@ def newsScraperDebatePost():
     source1Dict = None
     source2Dict = None
 
-    if source1 != None:
-        typed1 = dictData[0]["type"] #articles or headlines
-        source1Dict = dictData[0] #source 1 is something
+    typed1 = dictData[0]["type"] #articles or headlines
+    source1Dict = dictData[0] #source 1 is something
     
     keywordStr = ""
     keywords = keywords.split(", ")
