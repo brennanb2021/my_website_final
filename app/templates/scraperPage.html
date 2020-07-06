@@ -85,6 +85,14 @@ table {
     <br/>   -Nltk (natural language toolkit): I used its vader lexicon method to determine the sentiment of each sentence.
     <br/>   -Plotly: used to graph data.
     <br/>   -Selenium + a chrome webdriver: used to make an automated crawler that parses webpages on a chrome browser.
+    <br/><strong>!!! Heroku now has a 30 second request timeout, and scraping any of these news sites takes longer than that, so this will no longer work.
+    <br/>Here are some screenshots when I run it locally:
+    </strong>
+    <br/>
+    <img src="{{url_for('static', filename='newsScraperScreenshots/Screenshot (70).png')}}" alt="1" width="720" height="405">
+    <br/><br/><br/>
+    <img src="{{url_for('static', filename='newsScraperScreenshots/Screenshot (71).png')}}" alt="2" width="720" height="405">
+    <br/>
     </div>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
