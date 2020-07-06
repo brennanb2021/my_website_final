@@ -1,1 +1,1 @@
-web: gunicorn -k eventlet basicServer:app --log-file=-
+web: gunicorn basicServer:app --log-file=- --timeout 1000

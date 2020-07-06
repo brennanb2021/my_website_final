@@ -9,8 +9,6 @@ from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 from fake_useragent import UserAgent
-from app import socketio
-from flask_socketio import SocketIO, emit 
 
 """
 for all getArticles (except for CNN):
@@ -33,7 +31,7 @@ def getArticlesCNN(keywordArr, driver):
         except (TimeoutException, InvalidSessionIdException):
             try:
                 driver.refresh()
-                time.sleep(1)
+                time.sleep(0.5)
             except (TimeoutException, InvalidSessionIdException): #try again
                 print("Making new driver")
                 driver.close()
@@ -58,7 +56,7 @@ def getArticlesCNN(keywordArr, driver):
                 break
             except TimeoutException:
                 driver.get(URLPage)
-                time.sleep(2)
+                time.sleep(1)
                 print("Couldn't load page or no more results")
         
         if not breakBadLoad:
@@ -208,14 +206,13 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
     URLPage = buildURLDW()
     driver.get(URLPage)
     driver.implicitly_wait(3)
-    time.sleep(1)
     searchText = ""
     for keyword in keywordArr:
         searchText += keyword + " "
     searchText = searchText[:len(searchText)-1]
 
     driver.find_element_by_class_name("ais-SearchBox-input").send_keys(searchText)
-    time.sleep(1) #wait for headlines to load
+    time.sleep(0.5) #wait for headlines to load
 
     main_window = driver.current_window_handle #save main window
     totalHeadlinesSeen = 0 #count of all headlines
@@ -247,7 +244,7 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
                 options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
                 driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                 driver.set_page_load_timeout(8)
-                time.sleep(1)
+                time.sleep(0.5)
                 try:
                     driver.switch_to_window(driver.window_handles[1])
                 except (TimeoutException, InvalidSessionIdException) as e:
@@ -259,7 +256,7 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
             except (TimeoutException, InvalidSessionIdException):
                 try:
                     driver.refresh()
-                    time.sleep(1)
+                    time.sleep(0.5)
                 except (TimeoutException, InvalidSessionIdException): #try again
                     print("Making new driver")
                     driver.close()
@@ -272,7 +269,7 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
                     options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
                     driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                     driver.set_page_load_timeout(8)
-                    time.sleep(1)
+                    time.sleep(0.5)
                     try:
                         driver.get(link)
                     except (TimeoutException, InvalidSessionIdException) as e:
@@ -280,7 +277,7 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
                         break
             for j in range(2): #try 2 times
                 try:
-                    WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, "css-1yvgfcr")))
+                    WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.CLASS_NAME, "css-1yvgfcr")))
                     #wait until page is loaded (looking for date class -- on every article)
                     for i in range(3):
                         try:
@@ -313,13 +310,13 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
                 options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
                 driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                 driver.set_page_load_timeout(8)
-                time.sleep(1)
+                time.sleep(0.5)
                 try:
                     driver.switch_to_window(main_window)
                 except (TimeoutException, InvalidSessionIdException) as e:
                     print(e)
                     break
-            socketio.emit('message', len(rtnArticleList))
+            
             totalHeadlinesSeen+=1
             if len(rtnArticleList) == 30:
                 breakB = True

@@ -51,16 +51,6 @@ table {
 }
 </style>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
-<script type="text/javascript" charset="utf-8">
-    var socket = io.connect('http://' + document.domain + ':' + location.port);
-    socket.on('connect', function() {
-        console.log('connected');
-    });
-    socket.on('message', function(data) {
-        document.getElementById("loading").innerHTML = data
-    });
-</script>
 </head>
 
 
@@ -131,7 +121,7 @@ table {
                 </ul>
             {% endif %}
         {% endwith %}
-        <p id="loading">CHANGE THIS</p>
+
 
         {% if finishedReading is defined %}
         

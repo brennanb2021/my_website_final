@@ -1,7 +1,7 @@
-from app import app, socketio
-from flask_socketio import SocketIO, emit 
+from app import app
 #from app.models import User
 
 if __name__ == '__main__': #on flask run include: -p 5372 after to run it on port 5372.
-    socketio.run(app, debug=True)
+    app.run(port=33507)
+    print("main = running")
     #if run w/ basicServer.py instead of flask run
