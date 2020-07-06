@@ -16,7 +16,7 @@ for all getArticles (except for CNN):
 2. for each headline get the link to the article and open in new tab
 3. parse all sentences in the article
 4. close tab, back to main window
-5. stop at 30 articles
+5. stop at 20 articles
 """
 
 def getArticlesCNN(keywordArr, driver):
@@ -24,14 +24,14 @@ def getArticlesCNN(keywordArr, driver):
     breakBadLoad = False
     totalHeadlinesSeen = 0
     pageNum = 1
-    while len(pageContentArr) < 30: #read 30 articles total
+    while len(pageContentArr) < 20: #read 20 articles total
         URLPage = buildURLCNN(keywordArr, pageNum)
         try:
             driver.get(URLPage)
         except (TimeoutException, InvalidSessionIdException):
             try:
                 driver.refresh()
-                time.sleep(0.5)
+                time.sleep(1)
             except (TimeoutException, InvalidSessionIdException): #try again
                 print("Making new driver")
                 driver.close()
@@ -56,7 +56,7 @@ def getArticlesCNN(keywordArr, driver):
                 break
             except TimeoutException:
                 driver.get(URLPage)
-                time.sleep(1)
+                time.sleep(2)
                 print("Couldn't load page or no more results")
         
         if not breakBadLoad:
@@ -64,7 +64,7 @@ def getArticlesCNN(keywordArr, driver):
             for article in articleBody:
                 pageContentArr.append(article.text)
                 totalHeadlinesSeen+=1
-                if len(pageContentArr) == 30:
+                if len(pageContentArr) == 20:
                     break
         pageNum+=1
         breakBadLoad = False
@@ -80,7 +80,7 @@ def getArticlesNYT(keywordArr, driver):
     totalHeadlinesSeen = 0 #count of all headlines
     breakB = False
     past3LoopsHeadlineNumber = []
-    while len(rtnArticleList) < 30: #read 30 articles total
+    while len(rtnArticleList) < 20: #read 20 articles total
         
         time.sleep(1)
         
@@ -186,7 +186,7 @@ def getArticlesNYT(keywordArr, driver):
                     break
 
             totalHeadlinesSeen+=1
-            if len(rtnArticleList) == 30:
+            if len(rtnArticleList) == 20:
                 breakB = True
                 break
         if breakB:
@@ -206,20 +206,21 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
     URLPage = buildURLDW()
     driver.get(URLPage)
     driver.implicitly_wait(3)
+    time.sleep(1)
     searchText = ""
     for keyword in keywordArr:
         searchText += keyword + " "
     searchText = searchText[:len(searchText)-1]
 
     driver.find_element_by_class_name("ais-SearchBox-input").send_keys(searchText)
-    time.sleep(0.5) #wait for headlines to load
+    time.sleep(1) #wait for headlines to load
 
     main_window = driver.current_window_handle #save main window
     totalHeadlinesSeen = 0 #count of all headlines
     startStopCounter = False
     stopAfter3 = 0
     breakB = False
-    while len(rtnArticleList) < 30: #read 30 articles total
+    while len(rtnArticleList) < 20: #read 20 articles total
 
         links = driver.find_elements_by_tag_name("a")
         links = links[7:len(links)-17]
@@ -244,7 +245,7 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
                 options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
                 driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                 driver.set_page_load_timeout(2)
-                #time.sleep(0.5)
+                time.sleep(0.5)
                 try:
                     driver.switch_to_window(driver.window_handles[1])
                 except (TimeoutException, InvalidSessionIdException) as e:
@@ -256,7 +257,7 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
             except (TimeoutException, InvalidSessionIdException):
                 try:
                     driver.refresh()
-                    #time.sleep(0.5)
+                    time.sleep(0.5)
                 except (TimeoutException, InvalidSessionIdException): #try again
                     print("Making new driver")
                     driver.close()
@@ -269,7 +270,7 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
                     options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
                     driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                     driver.set_page_load_timeout(2)
-                    #time.sleep(0.5)
+                    time.sleep(0.5)
                     try:
                         driver.get(link)
                     except (TimeoutException, InvalidSessionIdException) as e:
@@ -310,7 +311,7 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
                 options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
                 driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), options=options)
                 driver.set_page_load_timeout(2)
-                #time.sleep(0.5)
+                time.sleep(0.5)
                 try:
                     driver.switch_to_window(main_window)
                 except (TimeoutException, InvalidSessionIdException) as e:
@@ -318,7 +319,7 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
                     break
             
             totalHeadlinesSeen+=1
-            if len(rtnArticleList) == 30:
+            if len(rtnArticleList) == 20:
                 breakB = True
                 break
         if breakB:
@@ -354,7 +355,7 @@ def getArticlesFOX(keywordArr, driver):
     totalHeadlinesSeen = 0 #count of all headlines
     breakB = False
     past3LoopsHeadlineNumber = []
-    while len(rtnArticleList) < 30: #read 30 articles total
+    while len(rtnArticleList) < 20: #read 20 articles total
 
         time.sleep(1)
         
@@ -468,7 +469,7 @@ def getArticlesFOX(keywordArr, driver):
                         break
 
             totalHeadlinesSeen+=1
-            if len(rtnArticleList) == 30:
+            if len(rtnArticleList) == 20:
                 breakB = True
                 break
         if breakB:
@@ -502,7 +503,7 @@ def getArticlesHP(keywordArr, driver):
     breakBadLoad = False
     breakB = False
     totalHeadlinesSeen = 0
-    while len(rtnArticleList) < 30: #read 30 articles total
+    while len(rtnArticleList) < 20: #read 20 articles total
         if pageNum == 101:
             break
         
@@ -604,7 +605,7 @@ def getArticlesHP(keywordArr, driver):
                 driver1.close() #close this window
                 driver1.switch_to_window(main_window) #back to the main window
 
-                if len(rtnArticleList) == 30:
+                if len(rtnArticleList) == 20:
                     breakB = True
                     break
             if breakB:
@@ -635,7 +636,7 @@ def getArticlesNYP(keywordArr, driver):
     breakBadLoad = False
     breakB = False
     totalHeadlinesSeen = 0
-    while len(rtnArticleList) < 30: #read 30 articles total
+    while len(rtnArticleList) < 20: #read 20 articles total
         
         URLPage = buildURLNYP(keywordArr, pageNum)
         try:
@@ -773,7 +774,7 @@ def getArticlesNYP(keywordArr, driver):
                         print(e)
                         break
 
-                if len(rtnArticleList) == 30:
+                if len(rtnArticleList) == 20:
                     breakB = True
                     break
             if breakB:

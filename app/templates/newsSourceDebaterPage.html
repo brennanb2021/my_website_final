@@ -85,19 +85,9 @@ table {
     <div class="formBox">
 
         <form action="/newsScraperDebater" method="POST">
-            <strong>Choose sources to compare<br/></strong>
-            <input list="sources1" name="sources1">
+            <strong>Choose source to search<br/></strong>
+            <input list="sources" name="sources">
             <datalist id="sources1">
-                <option value="CNN articles (30)">
-                <option value="New York Post articles (30)">
-                <option value="New York Times articles (30)">
-                <option value="Daily Wire articles (30)">
-                <option value="FOX articles (30)">
-                <option value="Huffington Post articles (30)">
-            </datalist>
-
-            <input list="sources2" name="sources2">
-            <datalist id="sources2">
                 <option value="CNN articles (30)">
                 <option value="New York Post articles (30)">
                 <option value="New York Times articles (30)">
@@ -132,16 +122,6 @@ table {
         {% endif %}
 
         <table>
-            <tr>
-                {% if source1 == None %}
-                    <th> </th>
-                {% else %}
-                    <th>{{ source1 }}</th>
-                {% endif %}
-                {% if source2 != None %}
-                    <th>{{ source2 }}</th>
-                {% endif %}
-            </tr>
             
             <tr>
                 {% if typed1 != None %}
@@ -159,18 +139,6 @@ table {
                 <td> </td>
                 {% endif %}
 
-                {% if typed2 != None %}
-                <td>
-                Number of articles: {{ source2Dict["numArticles"] }} <br/>
-                Number of sentences: {{ source2Dict["numSentences"] }}<br/>
-                % Negative sentences: {{ source2Dict["Negative sentences"] }}%<br/>
-                % Neutral sentences: {{ source2Dict["Neutral sentences"] }}%<br/>
-                % Positive sentences: {{ source2Dict["Positive sentences"] }}%<br/>
-                % Negative articles: {{ source2Dict["Negative articles"] }}%<br/>
-                % Neutral articles: {{ source2Dict["Neutral articles"] }}%<br/>
-                % Positive articles: {{ source2Dict["Positive articles"] }}%<br/><br/>
-                </td>
-                {% endif %}
             </tr>
             <tr>
                 <td>
