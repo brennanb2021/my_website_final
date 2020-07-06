@@ -43,3 +43,4 @@ zope.interface==5.1.0
 Flask-Caching==1.4.0
 pylibmc==1.5.2
 vaderSentiment
+flask_socketio
