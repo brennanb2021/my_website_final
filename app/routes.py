@@ -1,5 +1,5 @@
 from flask import request, render_template, flash, redirect, url_for, session, make_response, send_from_directory
-from app import app, db, socketio
+from app import app, db
 from app.CsrfDb.forms import LoginForm, RegistrationForm, EditPasswordForm, EditAccountForm
 from uuid import uuid4
 from app.CsrfDb.models import User, Profile, SessionTokens, CsrfTokens
@@ -7,31 +7,14 @@ import datetime
 import random as rd
 import re
 import os
-from flask_socketio import SocketIO, emit 
 import time  
 
 from app.newsScraper.mainAction import mainAction
 from app.newsScraperDebate.mainAction import mainActionDebate
 import plotly.graph_objects as go
 from plotly.offline import plot as plotlyOfflinePlot
-
 from app.pairingApp.group import runPairer
 from werkzeug.utils import secure_filename
-
-thread = None                                                                   
-
-def background_thread():                                                        
-    while True:                                                                 
-        socketio.emit('message', {'goodbye': "Goodbye"})                        
-        time.sleep(5)                                                           
-
-
-@socketio.on('connect')                                                         
-def connect():                                                                  
-    global thread                                                               
-    if thread is None:                                                          
-        thread = socketio.start_background_task(target=background_thread) 
-
 
 '''
 csrf database

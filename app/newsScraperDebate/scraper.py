@@ -9,6 +9,8 @@ from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 from fake_useragent import UserAgent
+from app import socketio
+from flask_socketio import SocketIO, emit 
 
 """
 for all getArticles (except for CNN):
@@ -317,7 +319,8 @@ def getArticlesDW(keywordArr, driver): #maybe load all and then look through art
                 except (TimeoutException, InvalidSessionIdException) as e:
                     print(e)
                     break
-            
+                
+            socketio.emit('message', {'goodbye': "Goodbye"})
             totalHeadlinesSeen+=1
             if len(rtnArticleList) == 30:
                 breakB = True
