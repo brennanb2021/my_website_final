@@ -52,6 +52,7 @@
     <div class="pageTitle">
         <a>Register</a>
     </div>
+    <b>Just fyi, everyone will be able to see your username via the members page.</b>
     <form action="/register" method="POST" novalidate>
         <input type='hidden' name='csrfToken' value='{{csrf}}'/>
         {% with messages = get_flashed_messages(with_categories=true) %}
